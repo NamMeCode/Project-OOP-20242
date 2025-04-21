@@ -1,7 +1,12 @@
+package rule;
+
+import card.Card;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class GameRule {
+
+public class ThirteenSRule  {
     public void sort(ArrayList<Card> cards) {
         cards.sort(Comparator.comparing(Card::getRank).thenComparing(Card::getSuit));
     }

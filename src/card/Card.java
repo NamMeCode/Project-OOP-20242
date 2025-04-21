@@ -1,6 +1,22 @@
+package card;
+
 public class Card {
     private String rank;
     private String suit;
+    private boolean FaceUp=false;
+    private boolean Selected=false;
+    public boolean isSelected() {
+        return Selected;
+    }
+    public void setSelected(boolean selected) {
+        Selected = selected;
+    }
+    public boolean isFaceUp() {
+        return FaceUp;
+    }
+    public void setFaceUp(boolean faceUp) {
+        FaceUp = faceUp;
+    }
 
     public Card(String rank, String suit) {
         this.rank=rank;
