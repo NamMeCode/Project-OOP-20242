@@ -54,6 +54,17 @@ public class ThirteenSControl {
             initializePlayersInRound(playersInGame);
 
         }
+        public void MenuOfChoice(AbstractPlayer player)
+        {
+            if (player instanceof Player)
+            {
+                
+            }
+            if (player instanceof Bot)
+            {
+                System.out.println("Bot Is Playing..");
+            }
+        }
 
 
     }
