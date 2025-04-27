@@ -41,6 +41,22 @@ public class ListOfCards {
         return cardList.remove(card);
 
     }
+    public Card drawCard() {
+        Card card=cardList.get(size-1);
+        cardList.remove(cardList.size()-1);
+        size--;
+        return card;
+
+    }
+    public ListOfCards drawCard(int x)
+    {
+        ListOfCards cardsDrawed=new ListOfCards();
+        while (x-->0)
+        {
+            cardsDrawed.addCard(drawCard());
+        }
+        return cardsDrawed;
+    }
     public Card getCardAt(int index) {
         if (index >= 0 && index < size) {
             return cardList.get(index);

@@ -9,6 +9,10 @@ public abstract class AbstractPlayer {
     private String gameType;
     GameRule rule;
 
+    public void setCardsOnHand(ListOfCards cardsOnHand) {
+        this.cardsOnHand = cardsOnHand;
+    }
+
     public void setGameType(String gameType) {
         this.gameType = gameType;
     }
