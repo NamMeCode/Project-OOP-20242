@@ -54,15 +54,23 @@ public class ThirteenSControl {
             initializePlayersInRound(playersInGame);
 
         }
-        public void MenuOfChoice(AbstractPlayer player)
+        public void MenuOfPlayer(AbstractPlayer player)
         {
             if (player instanceof Player)
             {
-                
+
+                System.out.println("The cards on hand are: " + player.toStringCardsOnHand());
+                System.out.println("Your selected cards are: " + player.toStringCardsSelected());
+                System.out.println("To Select A Card On Your Hand, Use Instruction: Select [order of card] ");
+                System.out.println("To Stop Selecting A Card On Your Hand, Use Instruction: Unselect [order of card] ");
+                System.out.println("To Play Your Selected Cards, Use Instruction: Play");
+                System.out.println("To Sort Cards On Your Hand, Use Instruction: Sort");
+                // remaining code
             }
             if (player instanceof Bot)
             {
                 System.out.println("Bot Is Playing..");
+                //remaining code
             }
         }
 

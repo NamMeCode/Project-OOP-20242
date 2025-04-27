@@ -61,4 +61,7 @@ public class Card {
         int res = this.getRank() - card.getRank();
         return res != 0 ? res : this.getSuit() - card.getSuit();
     }
+    public String toString() {
+        return rank + " - " + suit;
+    }
 }

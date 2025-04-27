@@ -57,6 +57,36 @@ public abstract class AbstractPlayer {
             return false;
         }
     }
+    public String toStringCardsOnHand()
+    {
+
+        StringBuilder s= new StringBuilder();
+        for (int i=0;i<cardsOnHand.getSize();i++)
+        {
+            Card card= cardsOnHand.getCardAt(i);
+            s.append(" | ");
+            s.append(card.toString());
+
+        }
+        s.append(" | ");
+        return s.toString();
+    }
+    public String toStringCardsSelected()
+    {
+
+        StringBuilder s= new StringBuilder();
+        for (int i=0;i<cardsOnHand.getSize();i++)
+        {
+            Card card= cardsOnHand.getCardAt(i);
+            if (card.isSelected())
+            {
+                s.append(" | ");
+                s.append(card.toString());
+            }
+        }
+        s.append(" | ");
+        return s.toString();
+    }
 
 
 
