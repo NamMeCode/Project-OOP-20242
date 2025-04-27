@@ -74,5 +74,18 @@ public class ListOfCards {
         cardList=newList.getCardList();
         size=newList.size;
     }
+    public void initializeDeck()
+    {
+        String[] rank= {"1","2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+        String[] suit ={"C","D","H","S"};
+        for (int i=0;i<4;i++)
+            for (int j=0;j<12;j++)
+            {
+                cardList.add(new Card(rank[j],suit[i]));
+
+            }
+        shuffle();
+
+    }
 
 }
