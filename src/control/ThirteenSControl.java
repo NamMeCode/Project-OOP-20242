@@ -12,7 +12,7 @@ public class ThirteenSControl {
     ArrayList<AbstractPlayer> playersWinGame= new ArrayList<AbstractPlayer>();
     private String gameType="ThirteenS";
     ListOfCards Deck = new ListOfCards();
-    public void startGame()
+    public void mainGame()
     {
         AbstractPlayer recentPlayerWinningRound=playersInGame.get(0);
         while (playersInGame.size()>0)
@@ -21,6 +21,7 @@ public class ThirteenSControl {
             ThirteenSRound currentRound= new ThirteenSRound(playersInGame,recentPlayerWinningRound,Deck);
             recentPlayerWinningRound=currentRound.getPlayerWinRound();
         }
+
 
 
     }
@@ -35,7 +36,7 @@ public class ThirteenSControl {
         for (AbstractPlayer player : playersInGame) {
             player.setCardsOnHand(Deck.drawCard(13));
         }
-        startGame();
+        mainGame();
     }
 
     public class ThirteenSRound {
@@ -65,7 +66,7 @@ public class ThirteenSControl {
                 System.out.println("To Stop Selecting A Card On Your Hand, Use Instruction: Unselect [order of card] ");
                 System.out.println("To Play Your Selected Cards, Use Instruction: Play");
                 System.out.println("To Sort Cards On Your Hand, Use Instruction: Sort");
-                // remaining code
+
             }
             if (player instanceof Bot)
             {
