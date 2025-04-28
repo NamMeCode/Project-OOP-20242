@@ -31,7 +31,7 @@ public class ThirteenSControl {
             playersInGame.add(new Player(gameType));
         }
         for (int i = 0; i < numberOfBots; i++) {
-            playersWinGame.add(new Bot(gameType));
+            playersInGame.add(new Bot(gameType));
         }
         for (AbstractPlayer player : playersInGame) {
             player.setCardsOnHand(Deck.drawCard(13));
