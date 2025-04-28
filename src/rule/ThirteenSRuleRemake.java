@@ -29,7 +29,7 @@ public class ThirteenSRuleRemake extends GameRule {
 
     public boolean checkSequence(ListOfCards cards) {
         for(int i = 0; i < cards.getSize() - 1; i++) {
-            if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank())
+            if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank() + 1)
                 return false;
         }
         return true;
