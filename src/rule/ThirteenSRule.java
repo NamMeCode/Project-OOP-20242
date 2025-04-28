@@ -1,47 +1,56 @@
 package rule;
 
 import card.Card;
+import card.ListOfCards;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.ListIterator;
 
 
-public class ThirteenSRule  {
-    public void sort(ArrayList<Card> cards) {
-        cards.sort(Comparator.comparing(Card::getRank).thenComparing(Card::getSuit));
+public class ThirteenSRule extends GameRule {
+    public void sort(ListOfCards cards) {
+        cards.sort();
     }
 
-    public boolean checkPair(ArrayList<Card> cards) {
-        return cards.getFirst().equals(cards.getLast());
+    public boolean checkPair(ListOfCards cards) {
+        return cards.getCardAt(0).equals(cards.getCardAt(1));
     }
 
-    public boolean checkThreeOfAKind(ArrayList<Card> cards) {
-        return cards.get(0).equals(cards.get(1)) && cards.get(1).equals(cards.get(2));
+    public boolean checkThreeOfAKind(ListOfCards cards) {
+        return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
+                cards.getCardAt(1).equals(cards.getCardAt(2));
     }
 
-    public boolean checkFourOfAKind(ArrayList<Card> cards) {
-        return cards.get(0).equals(cards.get(1)) && cards.get(1).equals(cards.get(2)) &&
-                cards.get(2).equals(cards.get(3));
+    public boolean checkFourOfAKind(ListOfCards cards) {
+        return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
+                cards.getCardAt(1).equals(cards.getCardAt(2)) &&
+                cards.getCardAt(2).equals(cards.getCardAt(3));
     }
 
-    public boolean checkSequence(ArrayList<Card> cards) {
-        for(int i=0; i<cards.size()-1; i++) {
-            if(cards.get(i).getRank() != cards.get(i+1).getRank()) return false;
+    public boolean checkSequence(ListOfCards cards) {
+        for(int i = 0; i < cards.getSize() - 1; i++) {
+            if(cards.getCardAt(i).getRank() == 15) return false;
+            if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank() + 1)
+                return false;
         }
         return true;
     }
 
-    public boolean checkDoubleSequence(ArrayList<Card> cards) {
-        if(cards.size() % 2 == 1) return false;
-        for(int i=0; i<cards.size()-1; i++) {
-            if(i % 2 == 0) if(cards.get(i).getRank() != cards.get(i+1).getRank()) return false;
-            else if(cards.get(i).getRank() != (cards.get(i+1).getRank() + 1)) return false;
+    public boolean checkDoubleSequence(ListOfCards cards) {
+        if(cards.getSize() % 2 == 1) return false;
+        for(int i = 0; i < cards.getSize() - 1; i++) {
+            if(i % 2 == 0) {
+                if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank())
+                    return false;
+            }
+            else if(cards.getCardAt(i).getRank() != (cards.getCardAt(i+1).getRank() + 1))
+                return false;
         }
         return true;
     }
 
-    public String handType(ArrayList<Card> cards) {
-        switch (cards.size()) {
+    public String handType(ListOfCards cards) {
+        switch (cards.getSize()) {
             case 1: return "Single";
             case 2: if(checkPair(cards)) return "Pair";
             case 3:
@@ -62,18 +71,60 @@ public class ThirteenSRule  {
         }
     }
 
-    public boolean checkValidPlay(ArrayList<Card> playCards, ArrayList<Card> tableCards) {
-        if(tableCards.isEmpty()) {
+    public boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards) {
+        if(tableCards.getSize() == 0) {
             sort(playCards);
             return !handType(playCards).equals("Invalid");
         }
-        if(playCards.size() != tableCards.size()) return false;
 
-        sort(playCards); sort(tableCards);
+        // check bombs
+        if(playCards.getSize() != tableCards.getSize()) {
+            if(tableCards.getCardAt(0).getRank() != 15) return false;
+            if(tableCards.getSize() == 1) {
+                if(checkFourOfAKind(playCards) || checkDoubleSequence(playCards)) return true;
+            }
+            else if(tableCards.getSize() == 2) {
+                if(checkDoubleSequence(playCards) && playCards.getSize() >= 8) return true;
+            }
+            else if(tableCards.getSize() == 3) {
+                if(checkDoubleSequence(playCards) && playCards.getSize() >= 10) return true;
+            }
+            else return false;
+        }
+
+        sort(playCards);
+        sort(tableCards);
         String typePlayCards = handType(playCards);
         String typeTableCards = handType(tableCards);
         if(!typePlayCards.equals(typeTableCards)) return false;
 
-        return playCards.getLast().compareCard(tableCards.getLast()) > 0;
+        return playCards.getCardAt(playCards.getSize() - 1).compareCard(tableCards.getCardAt(tableCards.getSize() - 1)) > 0;
+    }
+
+    public boolean checkWinCondition(ListOfCards handCards) {
+        // win with no card on hand
+        if(handCards.getCardList().isEmpty()) return true;
+
+        if(handCards.getSize() != 13) return false;
+        // win with four 2's
+        if(handCards.getCardAt(handCards.getSize()).getRank() == 15) {
+            ListOfCards tempCards = new ListOfCards();
+            for(int i=1; i<=4; i++) {
+                tempCards.addCard(handCards.getCardAt(handCards.getSize() - i));
+            }
+            if(checkFourOfAKind(tempCards)) return true;
+        }
+
+        //win with dragon sequence
+        int rank = 3, duplicateCardNum = 0;
+        for(int i=0; i<handCards.getSize(); i++) {
+            if(rank == 14) return true;
+            if(duplicateCardNum > 1) break;
+            Card card = handCards.getCardAt(i);
+            if(card.getRank() == rank) rank++;
+            else if(card.equals(handCards.getCardAt(i-1))) duplicateCardNum++;
+            else break;
+        }
+        return false;
     }
 }

@@ -15,9 +15,8 @@ public class Bot extends AbstractPlayer {
 
 
 
-        for (int i=0;i<autoPlayedCards.getSize();i++)
-        {
-            Card card =autoPlayedCards.getCardAt(i);
+        for (int i=0; i<autoPlayedCards.getSize(); i++) {
+            Card card = autoPlayedCards.getCardAt(i);
             card.setSelected(true);
         }
         playCards(cardsOnTable);
