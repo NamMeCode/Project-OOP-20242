@@ -7,16 +7,16 @@ import player.Bot;
 import rule.ThirteenSRule;
 import java.util.ArrayList;
 import java.util.Scanner;
-public class ThirteenSControl {
+public class ThirteenControl {
     final ArrayList<AbstractPlayer> playersInGame = new ArrayList<AbstractPlayer>();
     ArrayList<AbstractPlayer> playersWinGame = new ArrayList<AbstractPlayer>();
-    private String gameType = "ThirteenS";
+    private String gameType;
     ListOfCards Deck = new ListOfCards();
     ThirteenSRule rule = new ThirteenSRule();
 
-    public ThirteenSControl(int numberOfPlayers, int numberOfBots) {
+    public ThirteenControl(int numberOfPlayers, int numberOfBots, String gameType) {
         Deck.initializeDeck();
-
+        this.gameType = gameType;
         for (int i = 0; i < numberOfPlayers; i++) {
             playersInGame.add(new Player(gameType));
         }
@@ -46,7 +46,7 @@ public class ThirteenSControl {
         AbstractPlayer playerWinLastRound = playersInGame.getFirst();
 
         while (playersInGame.size() > 1) {
-            ThirteenSRound currentRound = new ThirteenSRound(playersInGame, playerWinLastRound);
+            ThirteenRound currentRound = new ThirteenRound(playersInGame, playerWinLastRound);
             playerWinLastRound = currentRound.getPlayerLastInRound();
         }
         playersWinGame.add(playersInGame.getFirst());
@@ -55,12 +55,12 @@ public class ThirteenSControl {
 
     }
 
-    private class ThirteenSRound {
+    private class ThirteenRound {
         ArrayList<AbstractPlayer> playersInRound =new ArrayList<AbstractPlayer>();
         AbstractPlayer playerLastInRound;
         ListOfCards cardsOnTable = new ListOfCards();
         Scanner scanner= new Scanner(System.in);
-        public ThirteenSRound(ArrayList<AbstractPlayer> playersInGame, AbstractPlayer playerStartRound) {
+        public ThirteenRound(ArrayList<AbstractPlayer> playersInGame, AbstractPlayer playerStartRound) {
             initializePlayersInRound(playersInGame);
             int playerIndex = playersInRound.indexOf(playerStartRound);
             AbstractPlayer currentPlayer = playerStartRound;
