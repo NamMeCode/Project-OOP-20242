@@ -54,6 +54,7 @@ public abstract class AbstractPlayer {
     }
     public boolean playCards(ListOfCards cardsOnTable) {
         ListOfCards cardsPlayed = cardsOnHand.cardsSelected();
+        
         if (rule.checkValidPlay(cardsPlayed,cardsOnTable))
         {
             cardsOnTable.replacedBy(cardsPlayed);

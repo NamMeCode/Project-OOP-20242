@@ -67,6 +67,8 @@ public class ThirteenSRule extends GameRule {
     }
 
     public boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards) {
+        if (playCards.getSize()==0)
+            return false;
         if(tableCards.getSize() == 0) {
             sort(playCards);
             return !handType(playCards).equals("Invalid");

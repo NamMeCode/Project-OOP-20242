@@ -34,7 +34,7 @@ public class ThirteenSControl {
         }
         mainGame();
     }
-    public void GuideLines()
+    public void guideLines()
     {
         System.out.println("To Select A Card On Your Hand, Use Instruction: Select [order of card] ");
         System.out.println("To Stop Selecting A Card On Your Hand, Use Instruction: Unselect [order of card] ");
@@ -42,7 +42,9 @@ public class ThirteenSControl {
         System.out.println("To pass the round, use Instruction: Pass");
     }
     public void mainGame() {
+        guideLines();
         AbstractPlayer playerWinLastRound = playersInGame.getFirst();
+
         while (playersInGame.size() > 1) {
             ThirteenSRound currentRound = new ThirteenSRound(playersInGame, playerWinLastRound);
             playerWinLastRound = currentRound.getPlayerLastInRound();
