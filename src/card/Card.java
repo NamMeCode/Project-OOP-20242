@@ -5,6 +5,7 @@ public class Card {
     private String suit;
     private boolean FaceUp=false;
     private boolean Selected=false;
+
     public boolean isSelected() {
         return Selected;
     }
