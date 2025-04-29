@@ -12,7 +12,7 @@ public abstract class AbstractPlayer {
 
     public void setCardsOnHand(ListOfCards cardsOnHand) {
         this.cardsOnHand = cardsOnHand;
-        cardsOnHand.sort();
+        cardsOnHand.sortRankSuit();
     }
 
     public ListOfCards getCardsOnHand() {

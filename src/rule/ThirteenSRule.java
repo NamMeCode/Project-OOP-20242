@@ -8,26 +8,7 @@ import java.util.ListIterator;
 
 
 public class ThirteenSRule extends GameRule {
-    public void sort(ListOfCards cards) {
-        cards.sort();
-    }
-
-    public boolean checkPair(ListOfCards cards) {
-        return cards.getCardAt(0).equals(cards.getCardAt(1));
-    }
-
-    public boolean checkThreeOfAKind(ListOfCards cards) {
-        return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
-                cards.getCardAt(1).equals(cards.getCardAt(2));
-    }
-
-    public boolean checkFourOfAKind(ListOfCards cards) {
-        return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
-                cards.getCardAt(1).equals(cards.getCardAt(2)) &&
-                cards.getCardAt(2).equals(cards.getCardAt(3));
-    }
-
-    public boolean checkSequence(ListOfCards cards) {
+    public static boolean checkSequence(ListOfCards cards) {
         for(int i = 0; i < cards.getSize() - 1; i++) {
             if(cards.getCardAt(i).getRank() == 15) return false;
             if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank() + 1)
@@ -71,9 +52,10 @@ public class ThirteenSRule extends GameRule {
         }
     }
 
+    // should be static
     public boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards) {
         if(tableCards.getSize() == 0) {
-            sort(playCards);
+            playCards.sortRankSuit();
             return !handType(playCards).equals("Invalid");
         }
 
@@ -92,8 +74,8 @@ public class ThirteenSRule extends GameRule {
             else return false;
         }
 
-        sort(playCards);
-        sort(tableCards);
+        playCards.sortRankSuit();
+        tableCards.sortRankSuit();
         String typePlayCards = handType(playCards);
         String typeTableCards = handType(tableCards);
         if(!typePlayCards.equals(typeTableCards)) return false;

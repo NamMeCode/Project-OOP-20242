@@ -25,8 +25,12 @@ public class ListOfCards {
     public void shuffle() {
         Collections.shuffle(cardList);
     }
-    public void sort() {
+    public void sortRankSuit() {
         cardList.sort(Comparator.comparing(Card::getRank).thenComparing(Card::getSuit));
+    }
+
+    public void sortSuitRank() {
+        cardList.sort(Comparator.comparing(Card::getSuit).thenComparing(Card::getRank));
     }
 
     public void addCard(Card card) {
@@ -37,8 +41,18 @@ public class ListOfCards {
     public boolean removeCard(Card card) {
         size--;
         return cardList.remove(card);
-
     }
+
+    public void addAll(ListOfCards cards) {
+        cardList.addAll(cards.getCardList());
+        size = cardList.size();
+    }
+
+    public void clear() {
+        size = 0;
+        cardList.clear();
+    }
+
     public Card drawCard() {
         Card card=cardList.get(size-1);
         cardList.remove(cardList.size()-1);
@@ -48,11 +62,11 @@ public class ListOfCards {
     }
 
     public ListOfCards drawCard(int numberOfCards) {
-        ListOfCards cardsDrawed = new ListOfCards();
+        ListOfCards cardsDrawn = new ListOfCards();
         while (numberOfCards-- > 0) {
-            cardsDrawed.addCard(drawCard());
+            cardsDrawn.addCard(drawCard());
         }
-        return cardsDrawed;
+        return cardsDrawn;
     }
 
     public Card getCardAt(int index) {
@@ -60,6 +74,13 @@ public class ListOfCards {
             return cardList.get(index);
         }
         return null;
+    }
+
+    public boolean contains(Card card) {
+        for(Card card1: cardList) {
+            if(card == card1) return true;
+        }
+        return false;
     }
 
     public ListOfCards cardsSelected() {

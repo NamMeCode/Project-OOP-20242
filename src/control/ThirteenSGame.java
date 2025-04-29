@@ -45,7 +45,6 @@ public class ThirteenSGame {
         playersWinGame.add(playersInGame.getFirst());
         System.out.println();
 
-
     }
 
     private class ThirteenSRound {
