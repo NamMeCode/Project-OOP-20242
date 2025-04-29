@@ -2,6 +2,7 @@ package player;
 import card.Card;
 import card.ListOfCards;
 import rule.GameRule;
+import rule.ThirteenNRule;
 import rule.ThirteenSRule;
 
 public abstract class AbstractPlayer {
@@ -24,10 +25,19 @@ public abstract class AbstractPlayer {
     public void setGameType(String gameType) {
         this.gameType = gameType;
     }
-    public void setRule(String rule) {
-        switch (rule) {
+    public void setRule(String gameType) {
+        switch (gameType) {
             case "ThirteenS":
+            {
                 this.rule=new ThirteenSRule();
+                break;
+            }
+
+            case "ThirteenN":
+            {
+                this.rule=new ThirteenNRule();
+                break;
+            }
         }
     }
 
@@ -54,7 +64,7 @@ public abstract class AbstractPlayer {
     }
     public boolean playCards(ListOfCards cardsOnTable) {
         ListOfCards cardsPlayed = cardsOnHand.cardsSelected();
-        
+
         if (rule.checkValidPlay(cardsPlayed,cardsOnTable))
         {
             cardsOnTable.replacedBy(cardsPlayed);
