@@ -1,8 +1,8 @@
-import control.ThirteenSControl;
+import control.ThirteenControl;
 
 public class Main {
     public static void main(String[] args) {
-        ThirteenSControl game= new ThirteenSControl(4,0);
+        ThirteenControl game= new ThirteenControl(4,0,"ThirteenS");
 
     }
 }

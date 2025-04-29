@@ -18,10 +18,24 @@ public class ListOfCards {
     {
         return size;
     }
+
     public ArrayList<Card> getCardList()
     {
         return cardList;
     }
+
+    public String toString ()
+    {
+        StringBuilder sb=new StringBuilder();
+        if (!cardList.isEmpty())
+            sb.append("| ");
+        for (Card card : cardList) {
+            sb.append(card.toString());
+            sb.append(" | ");
+        }
+        return sb.toString();
+    }
+
     public void shuffle() {
         Collections.shuffle(cardList);
     }
@@ -30,7 +44,7 @@ public class ListOfCards {
     }
 
     public void sortSuitRank() {
-        cardList.sort(Comparator.comparing(Card::getSuit).thenComparing(Card::getRank));
+        cardList.sort(Comparator.comparing(Card::getSuit).thenComparing((card, gameType) -> card.getRank()));
     }
 
     public void addCard(Card card) {
@@ -39,8 +53,11 @@ public class ListOfCards {
     }
 
     public boolean removeCard(Card card) {
-        size--;
-        return cardList.remove(card);
+        boolean removed=cardList.remove(card);
+        if (removed) {
+            size--;
+        }
+        return removed;
     }
 
     public void addAll(ListOfCards cards) {
@@ -54,11 +71,9 @@ public class ListOfCards {
     }
 
     public Card drawCard() {
-        Card card=cardList.get(size-1);
-        cardList.remove(cardList.size()-1);
+        Card card=cardList.removeLast();
         size--;
         return card;
-
     }
 
     public ListOfCards drawCard(int numberOfCards) {
@@ -110,14 +125,16 @@ public class ListOfCards {
         size = newList.size;
     }
 
-    public void initializeDeck() {
-        String[] rank= {"1","2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+    public void initializeDeck()
+    {
+        String[] rank= {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
         String[] suit ={"C","D","H","S"};
         for (int i=0;i<4;i++)
-            for (int j=0;j<12;j++)
+            for (int j=0;j<13;j++)
             {
                 cardList.add(new Card(rank[j],suit[i]));
             }
+        size=cardList.size();
         shuffle();
     }
 

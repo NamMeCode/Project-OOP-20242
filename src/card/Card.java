@@ -27,14 +27,14 @@ public class Card {
     //thirteenN: 2 -> K -> Q -> J -> ...
     //poker: A -> K -> Q -> J -> ... -> 2
     public int getRank() {
-        return switch (rank) {
-            case "J" -> 11;
-            case "Q" -> 12;
-            case "K" -> 13;
-            case "A" -> 14;
-            case "2" -> 15;
-            default -> Integer.parseInt(rank);
-        };
+            return switch (rank) {
+                case "J" -> 11;
+                case "Q" -> 12;
+                case "K" -> 13;
+                case "A" -> 14;
+                case "2" -> 15;
+                default -> Integer.parseInt(rank);
+            };
     }
 
     public int getSuit() {
@@ -44,14 +44,6 @@ public class Card {
             case "C" -> 2;
             default -> 1;
         };
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    public void setSuit(String suit) {
-        this.suit = suit;
     }
 
     public boolean equals(Card card) {
