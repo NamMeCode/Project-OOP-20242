@@ -1,47 +1,51 @@
 package rule;
 
+import card.ListOfCards;
 import card.Card;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-
-
-public class ThirteenSRule  {
-    public void sort(ArrayList<Card> cards) {
-        cards.sort(Comparator.comparing(Card::getRank).thenComparing(Card::getSuit));
+public class ThirteenSRule extends GameRule {
+    public void sort(ListOfCards cards) {
+        cards.sort();
     }
 
-    public boolean checkPair(ArrayList<Card> cards) {
-        return cards.getFirst().equals(cards.getLast());
+    public boolean checkPair(ListOfCards cards) {
+        return cards.getCardAt(0).equals(cards.getCardAt(1));
     }
 
-    public boolean checkThreeOfAKind(ArrayList<Card> cards) {
-        return cards.get(0).equals(cards.get(1)) && cards.get(1).equals(cards.get(2));
+    public boolean checkThreeOfAKind(ListOfCards cards) {
+        return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
+                cards.getCardAt(1).equals(cards.getCardAt(2));
     }
 
-    public boolean checkFourOfAKind(ArrayList<Card> cards) {
-        return cards.get(0).equals(cards.get(1)) && cards.get(1).equals(cards.get(2)) &&
-                cards.get(2).equals(cards.get(3));
+    public boolean checkFourOfAKind(ListOfCards cards) {
+        return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
+                cards.getCardAt(1).equals(cards.getCardAt(2)) &&
+                cards.getCardAt(2).equals(cards.getCardAt(3));
     }
 
-    public boolean checkSequence(ArrayList<Card> cards) {
-        for(int i=0; i<cards.size()-1; i++) {
-            if(cards.get(i).getRank() != cards.get(i+1).getRank()) return false;
+    public boolean checkSequence(ListOfCards cards) {
+        for(int i = 0; i < cards.getSize() - 1; i++) {
+            if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank() + 1)
+                return false;
         }
         return true;
     }
 
-    public boolean checkDoubleSequence(ArrayList<Card> cards) {
-        if(cards.size() % 2 == 1) return false;
-        for(int i=0; i<cards.size()-1; i++) {
-            if(i % 2 == 0) if(cards.get(i).getRank() != cards.get(i+1).getRank()) return false;
-            else if(cards.get(i).getRank() != (cards.get(i+1).getRank() + 1)) return false;
+    public boolean checkDoubleSequence(ListOfCards cards) {
+        if(cards.getSize() % 2 == 1) return false;
+        for(int i = 0; i < cards.getSize() - 1; i++) {
+            if(i % 2 == 0) {
+                if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank())
+                    return false;
+            }
+            else if(cards.getCardAt(i).getRank() != (cards.getCardAt(i+1).getRank() + 1))
+                return false;
         }
         return true;
     }
 
-    public String handType(ArrayList<Card> cards) {
-        switch (cards.size()) {
+    public String handType(ListOfCards cards) {
+        switch (cards.getSize()) {
             case 1: return "Single";
             case 2: if(checkPair(cards)) return "Pair";
             case 3:
@@ -62,18 +66,24 @@ public class ThirteenSRule  {
         }
     }
 
-    public boolean checkValidPlay(ArrayList<Card> playCards, ArrayList<Card> tableCards) {
-        if(tableCards.isEmpty()) {
+    public boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards) {
+        if(tableCards.getSize() == 0) {
             sort(playCards);
             return !handType(playCards).equals("Invalid");
         }
-        if(playCards.size() != tableCards.size()) return false;
+        if(playCards.getSize() != tableCards.getSize()) return false;
 
-        sort(playCards); sort(tableCards);
+        sort(playCards);
+        sort(tableCards);
         String typePlayCards = handType(playCards);
         String typeTableCards = handType(tableCards);
         if(!typePlayCards.equals(typeTableCards)) return false;
 
-        return playCards.getLast().compareCard(tableCards.getLast()) > 0;
+        return playCards.getCardAt(playCards.getSize() - 1).compareCard(tableCards.getCardAt(tableCards.getSize() - 1)) > 0;
+    }
+    public boolean checkWinCondition(ListOfCards handCards) {
+        // win with no card on hand
+        if(handCards.getCardList().isEmpty()) return true;
+            return false;
     }
 }

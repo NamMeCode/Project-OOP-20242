@@ -5,13 +5,13 @@ import card.Card;
 public class Bot extends AbstractPlayer {
     public Bot(String gameType) {
         setGameType(gameType);
-
+        setRule(gameType);
     }
-    public void autoPlayCards(ListOfCards cardsOnTable) {
+    public boolean autoPlayCards(ListOfCards cardsOnTable) {
         ListOfCards autoPlayedCards = new ListOfCards();
         //algorithm to find autoPlayedCards
         //......
-        //
+        // neu không thể đánh thì return false
 
 
 
@@ -21,6 +21,7 @@ public class Bot extends AbstractPlayer {
             card.setSelected(true);
         }
         playCards(cardsOnTable);
+        return true;
 
 
     };

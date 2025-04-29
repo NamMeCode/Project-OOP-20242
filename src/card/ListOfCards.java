@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ListOfCards {
+
     private ArrayList<Card> cardList=new ArrayList<>();
+
     private int size=0;
     public int getSize()
     {
@@ -14,6 +16,17 @@ public class ListOfCards {
     public ArrayList<Card> getCardList()
     {
         return cardList;
+    }
+    public String toString ()
+    {
+        StringBuilder sb=new StringBuilder();
+        if (cardList.size()>0)
+            sb.append("| ");
+        for (Card card : cardList) {
+            sb.append(card.toString());
+            sb.append(" | ");
+        }
+        return sb.toString();
     }
     public void shuffle() {
         Collections.shuffle(cardList);
@@ -37,15 +50,22 @@ public class ListOfCards {
     }
 
     public boolean removeCard(Card card) {
-        size--;
-        return cardList.remove(card);
+        boolean removed=cardList.remove(card);
+        if (removed) {
+            size--;
+        }
+
+        return removed;
 
     }
     public Card drawCard() {
+
         Card card=cardList.get(size-1);
-        cardList.remove(cardList.size()-1);
-        size--;
+        cardList.remove(size-1);
+            size--;
         return card;
+
+
 
     }
     public ListOfCards drawCard(int x)
@@ -92,14 +112,15 @@ public class ListOfCards {
     }
     public void initializeDeck()
     {
-        String[] rank= {"1","2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+        String[] rank= {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
         String[] suit ={"C","D","H","S"};
         for (int i=0;i<4;i++)
-            for (int j=0;j<12;j++)
+            for (int j=0;j<13;j++)
             {
                 cardList.add(new Card(rank[j],suit[i]));
 
             }
+        size=cardList.size();
         shuffle();
 
     }
