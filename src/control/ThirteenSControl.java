@@ -118,7 +118,9 @@ public class ThirteenSControl {
                         }
                     }
                 }
-                currentPlayer = playersInRound.get((playerIndex + 1) % playersInRound.size());
+                playerIndex=(playerIndex+1)%playersInRound.size();
+
+                currentPlayer = playersInRound.get(playerIndex);
             }
             playerLastInRound = playersInRound.getFirst();
         }
