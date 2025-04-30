@@ -3,33 +3,6 @@ package rule;
 import card.ListOfCards;
 
 public class ThirteenNRule extends GameRule {
-    public void sort(ListOfCards cards) {
-        cards.sort();
-    }
-
-    public boolean checkPair(ListOfCards cards) {
-        return cards.getCardAt(0).equals(cards.getCardAt(1));
-    }
-
-    public boolean checkThreeOfAKind(ListOfCards cards) {
-        return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
-                cards.getCardAt(1).equals(cards.getCardAt(2));
-    }
-
-    public boolean checkFourOfAKind(ListOfCards cards) {
-        return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
-                cards.getCardAt(1).equals(cards.getCardAt(2)) &&
-                cards.getCardAt(2).equals(cards.getCardAt(3));
-    }
-
-    public boolean checkSequence(ListOfCards cards) {
-        for(int i = 0; i < cards.getSize() - 1; i++) {
-            if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank() + 1)
-                return false;
-        }
-        return true;
-    }
-
     public boolean checkDoubleSequence(ListOfCards cards) {
         if(cards.getSize() % 2 == 1) return false;
         for(int i = 0; i < cards.getSize() - 1; i++) {
@@ -69,13 +42,13 @@ public class ThirteenNRule extends GameRule {
         if (playCards.getSize()==0)
             return false;
         if(tableCards.getSize() == 0) {
-            sort(playCards);
+            playCards.sortRankSuit();
             return !handType(playCards).equals("Invalid");
         }
         if(playCards.getSize() != tableCards.getSize()) return false;
 
-        sort(playCards);
-        sort(tableCards);
+        playCards.sortRankSuit();
+        tableCards.sortRankSuit();
         String typePlayCards = handType(playCards);
         String typeTableCards = handType(tableCards);
         if(!typePlayCards.equals(typeTableCards)) return false;
@@ -84,7 +57,6 @@ public class ThirteenNRule extends GameRule {
     }
     public boolean checkWinCondition(ListOfCards handCards) {
         // win with no card on hand
-        if(handCards.getCardList().isEmpty()) return true;
-            return false;
+        return handCards.getCardList().isEmpty();
     }
 }

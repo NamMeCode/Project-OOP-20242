@@ -45,7 +45,6 @@ public class ThirteenSGame {
         playersWinGame.add(playersInGame.getFirst());
         System.out.println();
 
-
     }
 
     private class ThirteenSRound {
@@ -62,7 +61,7 @@ public class ThirteenSGame {
                     // player selects cards
                     boolean decision;
                     // player clicks button play
-                    decision = rule.checkValidPlay(currentPlayer.playCards(), cardsOnTable);
+                    decision = currentPlayer.playCards(cardsOnTable);
                     if(decision) {
                         if (rule.checkWinCondition(currentPlayer.getCardsOnHand())) {
                             playersWinGame.add(currentPlayer);

@@ -5,9 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ListOfCards {
-
     private ArrayList<Card> cardList=new ArrayList<>();
-
     private int size=0;
 
     public ListOfCards() {}
@@ -20,16 +18,16 @@ public class ListOfCards {
     {
         return size;
     }
-  
+
     public ArrayList<Card> getCardList()
     {
         return cardList;
     }
-  
+
     public String toString ()
     {
         StringBuilder sb=new StringBuilder();
-        if (cardList.size()>0)
+        if (!cardList.isEmpty())
             sb.append("| ");
         for (Card card : cardList) {
             sb.append(card.toString());
@@ -37,13 +35,16 @@ public class ListOfCards {
         }
         return sb.toString();
     }
-  
+
     public void shuffle() {
         Collections.shuffle(cardList);
     }
-  
-    public void sort() {
+    public void sortRankSuit() {
         cardList.sort(Comparator.comparing(Card::getRank).thenComparing(Card::getSuit));
+    }
+
+    public void sortSuitRank() {
+        cardList.sort(Comparator.comparing(Card::getSuit).thenComparing((card, gameType) -> card.getRank()));
     }
 
     public void addCard(Card card) {
@@ -58,20 +59,29 @@ public class ListOfCards {
         }
         return removed;
     }
-  
+
+    public void addAll(ListOfCards cards) {
+        cardList.addAll(cards.getCardList());
+        size = cardList.size();
+    }
+
+    public void clear() {
+        size = 0;
+        cardList.clear();
+    }
+
     public Card drawCard() {
-        Card card=cardList.get(size-1);
-        cardList.remove(size-1);
-            size--;
+        Card card=cardList.removeLast();
+        size--;
         return card;
     }
 
     public ListOfCards drawCard(int numberOfCards) {
-        ListOfCards cardsDrawed = new ListOfCards();
+        ListOfCards cardsDrawn = new ListOfCards();
         while (numberOfCards-- > 0) {
-            cardsDrawed.addCard(drawCard());
+            cardsDrawn.addCard(drawCard());
         }
-        return cardsDrawed;
+        return cardsDrawn;
     }
 
     public Card getCardAt(int index) {
@@ -79,6 +89,13 @@ public class ListOfCards {
             return cardList.get(index);
         }
         return null;
+    }
+
+    public boolean contains(Card card) {
+        for(Card card1: cardList) {
+            if(card == card1) return true;
+        }
+        return false;
     }
 
     public ListOfCards cardsSelected() {
