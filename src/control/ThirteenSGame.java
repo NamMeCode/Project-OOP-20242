@@ -4,7 +4,6 @@ import card.ListOfCards;
 import player.AbstractPlayer;
 import player.Player;
 import player.Bot;
-import rule.GameRule;
 import rule.ThirteenSRule;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class ThirteenSGame {
     ThirteenSRule rule = new ThirteenSRule();
 
     public ThirteenSGame(int numberOfPlayers, int numberOfBots) {
-        Deck.initializeDeck();
+        Deck.initializeDeck("ThirteenS");
         for (int i = 0; i < numberOfPlayers; i++) {
             playersInGame.add(new Player(gameType));
         }

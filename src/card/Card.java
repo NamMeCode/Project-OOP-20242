@@ -1,10 +1,11 @@
 package card;
 
 public class Card {
-    private String rank;
+    String rank;
     private String suit;
     private boolean FaceUp=false;
     private boolean Selected=false;
+    private String gameType;
 
     public boolean isSelected() {
         return Selected;
@@ -19,14 +20,16 @@ public class Card {
         FaceUp = faceUp;
     }
 
-    public Card(String rank, String suit) {
+    public Card(String rank, String suit, String gameType) {
         this.rank=rank;
         this.suit=suit;
+        this.gameType = gameType;
     }
 
     //thirteenN: 2 -> K -> Q -> J -> ...
     //poker: A -> K -> Q -> J -> ... -> 2
     public int getRank() {
+        if(gameType.equals("ThirteenN") || gameType.equals("ThirteenS")) {
             return switch (rank) {
                 case "J" -> 11;
                 case "Q" -> 12;
@@ -35,6 +38,17 @@ public class Card {
                 case "2" -> 15;
                 default -> Integer.parseInt(rank);
             };
+        }
+        else if(gameType.equals("Poker")) {
+            return switch (rank) {
+                case "J" -> 11;
+                case "Q" -> 12;
+                case "K" -> 13;
+                case "A" -> 14;
+                default -> Integer.parseInt(rank);
+            };
+        }
+        return 0;
     }
 
     public int getSuit() {

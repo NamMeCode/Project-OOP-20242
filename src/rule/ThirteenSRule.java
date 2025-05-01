@@ -2,7 +2,6 @@ package rule;
 
 import card.ListOfCards;
 import card.Card;
-import card.ListOfCards;
 
 public class ThirteenSRule extends GameRule {
     public static boolean checkSequence(ListOfCards cards) {
