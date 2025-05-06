@@ -6,4 +6,8 @@ public class Player extends AbstractPlayer {
         setGameType(gameType);
         setRule(gameType);
     }
+
+    public Player(String gameType, int initialStack) {
+        super(gameType, initialStack);
+    }
 }

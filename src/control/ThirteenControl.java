@@ -15,7 +15,7 @@ public class ThirteenControl {
     ThirteenSRule rule = new ThirteenSRule();
 
     public ThirteenControl(int numberOfPlayers, int numberOfBots, String gameType) {
-        Deck.initializeDeck();
+        Deck.initializeDeck("ThirteenS");
         this.gameType = gameType;
         for (int i = 0; i < numberOfPlayers; i++) {
             playersInGame.add(new Player(gameType));
@@ -60,9 +60,10 @@ public class ThirteenControl {
         AbstractPlayer playerLastInRound;
         ListOfCards cardsOnTable = new ListOfCards();
         Scanner scanner= new Scanner(System.in);
+
         public ThirteenRound(ArrayList<AbstractPlayer> playersInGame, AbstractPlayer playerStartRound) {
             initializePlayersInRound(playersInGame);
-            int playerIndex = playersInRound.indexOf(playerStartRound);
+            int currentPlayerIndex = playersInRound.indexOf(playerStartRound);
             AbstractPlayer currentPlayer = playerStartRound;
             while(playersInRound.size() > 1) {
                 turnOfAPlayer: while(true) {
@@ -71,7 +72,7 @@ public class ThirteenControl {
                         if (!((Bot) currentPlayer).autoPlayCards(cardsOnTable))
                         {
                             playersInRound.remove(currentPlayer);
-                            playerIndex--;
+                            currentPlayerIndex--;
                         }
                         break turnOfAPlayer;
                     }
@@ -85,7 +86,7 @@ public class ThirteenControl {
                                     playersWinGame.add(currentPlayer);
                                     playersInRound.remove(currentPlayer);
                                     playersInGame.remove(currentPlayer);
-                                    playerIndex --;
+                                    currentPlayerIndex --;
                                 }
                                 break turnOfAPlayer;
                             }
@@ -103,7 +104,7 @@ public class ThirteenControl {
                         case "Pass":
                         {
                             playersInRound.remove(currentPlayer);
-                            playerIndex--;
+                            currentPlayerIndex--;
                             break turnOfAPlayer;
                         }
                         case "Select":
@@ -120,9 +121,9 @@ public class ThirteenControl {
                         }
                     }
                 }
-                playerIndex=(playerIndex+1)%playersInRound.size();
+                currentPlayerIndex=(currentPlayerIndex+1)%playersInRound.size();
 
-                currentPlayer = playersInRound.get(playerIndex);
+                currentPlayer = playersInRound.get(currentPlayerIndex);
             }
             playerLastInRound = playersInRound.getFirst();
         }
