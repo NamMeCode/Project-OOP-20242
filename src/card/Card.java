@@ -1,7 +1,7 @@
 package card;
 
 public class Card {
-    String rank;
+    private String rank;
     private String suit;
     private boolean FaceUp=false;
     private boolean Selected=false;
@@ -62,6 +62,10 @@ public class Card {
 
     public boolean equals(Card card) {
         return this.getRank() == card.getRank();
+    }
+
+    public boolean checkSameColour(Card card) {
+        return (this.getSuit() >= 3 && card.getSuit() >= 3) || (this.getSuit() <= 2 && card.getSuit() <= 2);
     }
 
     public int compareCard(Card card) {

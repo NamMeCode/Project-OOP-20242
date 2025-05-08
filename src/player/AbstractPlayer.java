@@ -11,7 +11,7 @@ public class AbstractPlayer implements Comparable<AbstractPlayer> {
     private String gameType;
     GameRule rule;
     private static int idGenerator=0;
-    public int id;
+    private final int id;
 
     private int chipStack;
     private int currentBet;
@@ -28,6 +28,7 @@ public class AbstractPlayer implements Comparable<AbstractPlayer> {
     public AbstractPlayer(String gameType, int initialStack) {
         this.gameType = gameType;
         this.chipStack = initialStack;
+        this.id = ++idGenerator;
     }
 
     public int getId() {
@@ -167,10 +168,10 @@ public class AbstractPlayer implements Comparable<AbstractPlayer> {
             case "Straight Flush", "Straight" -> {
                 return 0;
             }
-            case "Four Of A Kind", "Full House", "Two Pair" -> {
+            case "Four Of A Kind", "Full House" -> {
                 return Integer.compare(bestCards.getCardAt(4).getRank(), other.getBestCards().getCardAt(4).getRank());
             }
-            case "Three Of A Kind" -> {
+            case "Three Of A Kind", "Two Pair" -> {
                 int result = 0;
                 for (int i = 3; i <= 4; i++) {
                     result = Integer.compare(bestCards.getCardAt(i).getRank(), other.getBestCards().getCardAt(i).getRank());
@@ -208,6 +209,10 @@ public class AbstractPlayer implements Comparable<AbstractPlayer> {
         this.handType = handType;
     }
 
+    public String getHandType() {
+        return handType;
+    }
+
     public ListOfCards getBestCards() {
         return bestCards;
     }
@@ -237,9 +242,10 @@ public class AbstractPlayer implements Comparable<AbstractPlayer> {
         return betAmount;
     }
 
-    public int raise(int betAmount) {
-        this.currentBet += betAmount;
-        this.chipStack -= betAmount;
+    public int raise(int betAmount, int currentBet) {
+        int temp = currentBet + betAmount;
+        this.chipStack -= temp - this.currentBet;
+        this.currentBet = temp;
         return betAmount;
     }
 
