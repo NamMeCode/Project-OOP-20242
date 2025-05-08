@@ -15,7 +15,7 @@ public class ThirteenControl {
     ThirteenSRule rule = new ThirteenSRule();
 
     public ThirteenControl(int numberOfPlayers, int numberOfBots, String gameType) {
-        Deck.initializeDeck("ThirteenS");
+        Deck.initializeDeck(gameType);
         this.gameType = gameType;
         for (int i = 0; i < numberOfPlayers; i++) {
             playersInGame.add(new Player(gameType));
