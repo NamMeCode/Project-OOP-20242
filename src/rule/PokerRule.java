@@ -1,9 +1,7 @@
 package rule;
 
 import card.ListOfCards;
-import player.PokerPlayer;
-
-import java.util.List;
+import player.AbstractPlayer;
 
 public class PokerRule {
     public ListOfCards checkStraightFlush(ListOfCards cards) {
@@ -50,10 +48,10 @@ public class PokerRule {
             if (GameRule.checkThreeOfAKind(tempCards)) {
                 ListOfCards tempCards2 = new ListOfCards();
                 for(int j = cards.getSize() - 2; j >= 0; j--) {
-                    for (int k = 0; k < 3; k++) {
+                    for (int k = 0; k < 2; k++) {
                         tempCards2.addCard(cards.getCardAt(j + k));
                     }
-                    if(tempCards.contains(tempCards2.getCardAt(0)) && GameRule.checkPair(tempCards2)) {
+                    if(!tempCards.contains(tempCards2.getCardAt(0)) && GameRule.checkPair(tempCards2)) {
                         tempCards.addAll(tempCards2);
                         return tempCards;
                     }
@@ -79,18 +77,23 @@ public class PokerRule {
     }
 
     public ListOfCards checkStraight(ListOfCards cards) {
-        cards.sortRankSuit();
+        ListOfCards listOfCards = new ListOfCards(cards.getCardList());
+        listOfCards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
-        for(int i = cards.getSize() - 5; i >= 0; i--) {
-            for (int j = 0; j < 5; j++) {
-                if(cards.getCardAt(j).equals(cards.getCardAt(j+1))) {
-                    cards.removeCard(cards.getCardAt(j));
+        for(int i = listOfCards.getSize() - 5; i >= 0; i--) {
+            tempCards.addCard(listOfCards.getCardAt(i));
+            for (int j = 1; j < 5; j++) {
+                if(listOfCards.getCardAt(i + j).equals(listOfCards.getCardAt(i + j - 1))) {
+                    listOfCards.removeCard(listOfCards.getCardAt(i + j - 1));
                     tempCards.clear();
                     break;
                 }
-                else tempCards.addCard(cards.getCardAt(i + j));
+                else {
+                    tempCards.addCard(listOfCards.getCardAt(i + j));
+                }
             }
             if(tempCards.getSize() != 0 && GameRule.checkSequence(tempCards)) return tempCards;
+            tempCards.clear();
         }
         return null;
     }
@@ -126,7 +129,7 @@ public class PokerRule {
                 ListOfCards tempCards2 = new ListOfCards();
                 for(int j = i - 2; j >= 0; j--) {
                     for(int k = 0; k < 2; k++) {
-                        tempCards.addCard(cards.getCardAt(j + k));
+                        tempCards2.addCard(cards.getCardAt(j + k));
                     }
                     if(GameRule.checkPair(tempCards2)) {
                         tempCards.addAll(tempCards2);
@@ -170,11 +173,13 @@ public class PokerRule {
     public ListOfCards checkHighCard(ListOfCards cards) {
         cards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
-        tempCards.addCard(cards.getCardAt(cards.getSize()));
+        for (int i = 1; i <= 5; i++) {
+            tempCards.addCard(cards.getCardAt(cards.getSize() - i));
+        }
         return tempCards;
     }
 
-    public void handType(PokerPlayer player, ListOfCards cardsOnTable) {
+    public void checkHandRank(AbstractPlayer player, ListOfCards cardsOnTable) {
         ListOfCards mergeCards = new ListOfCards(player.getCardsOnHand().getCardList());
         mergeCards.addAll(cardsOnTable);
         ListOfCards bestCards;
@@ -195,11 +200,7 @@ public class PokerRule {
             player.setBestCards(bestCards);
         }
         else if((bestCards = checkStraight(mergeCards)) != null) {
-            player.setHandType("Straight Flush");
-            player.setBestCards(bestCards);
-        }
-        else if((bestCards = checkStraight(mergeCards)) != null) {
-            player.setHandType("Straight Flush");
+            player.setHandType("Straight");
             player.setBestCards(bestCards);
         }
         else if((bestCards = checkThreeOfAKind(mergeCards)) != null) {

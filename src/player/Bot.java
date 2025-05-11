@@ -7,6 +7,11 @@ public class Bot extends AbstractPlayer {
         setGameType(gameType);
         setRule(gameType);
     }
+    public Bot(String gameType,int chipStack) {
+        setChipStack(chipStack);
+        setGameType(gameType);
+        setRule(gameType);
+    }
     public boolean autoPlayCards(ListOfCards cardsOnTable) {
         ListOfCards autoPlayedCards = new ListOfCards();
         //algorithm to find autoPlayedCards

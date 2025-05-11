@@ -9,6 +9,7 @@ public class ListOfCards {
     private int size=0;
 
     public ListOfCards() {}
+
     public ListOfCards(ArrayList<Card> cardList) {
         this.cardList=cardList;
         this.size=cardList.size();
@@ -26,7 +27,7 @@ public class ListOfCards {
 
     public String toString ()
     {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         if (!cardList.isEmpty())
             sb.append("| ");
         for (Card card : cardList) {
@@ -44,7 +45,7 @@ public class ListOfCards {
     }
 
     public void sortSuitRank() {
-        cardList.sort(Comparator.comparing(Card::getSuit).thenComparing((card, gameType) -> card.getRank()));
+        cardList.sort(Comparator.comparing(Card::getSuit).thenComparing(Card::getRank));
     }
 
     public void addCard(Card card) {
@@ -125,14 +126,14 @@ public class ListOfCards {
         size = newList.size;
     }
 
-    public void initializeDeck()
+    public void initializeDeck(String gameType)
     {
         String[] rank= {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
         String[] suit ={"C","D","H","S"};
         for (int i=0;i<4;i++)
             for (int j=0;j<13;j++)
             {
-                cardList.add(new Card(rank[j],suit[i]));
+                cardList.add(new Card(rank[j],suit[i], gameType));
             }
         size=cardList.size();
         shuffle();

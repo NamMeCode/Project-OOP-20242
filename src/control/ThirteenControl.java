@@ -10,12 +10,12 @@ import java.util.Scanner;
 public class ThirteenControl {
     final ArrayList<AbstractPlayer> playersInGame = new ArrayList<AbstractPlayer>();
     ArrayList<AbstractPlayer> playersWinGame = new ArrayList<AbstractPlayer>();
-    private String gameType;
+    private final String gameType;
     ListOfCards Deck = new ListOfCards();
     ThirteenSRule rule = new ThirteenSRule();
 
     public ThirteenControl(int numberOfPlayers, int numberOfBots, String gameType) {
-        Deck.initializeDeck();
+        Deck.initializeDeck(gameType);
         this.gameType = gameType;
         for (int i = 0; i < numberOfPlayers; i++) {
             playersInGame.add(new Player(gameType));

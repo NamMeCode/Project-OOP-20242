@@ -3,7 +3,10 @@ package rule;
 import card.ListOfCards;
 
 public abstract class GameRule {
-    public abstract boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards);
+    public boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards)
+    {
+        return true;
+    };
 
     public static boolean checkPair(ListOfCards cards) {
         return cards.getCardAt(0).equals(cards.getCardAt(1));
@@ -35,5 +38,8 @@ public abstract class GameRule {
         }
         return true;
     }
-    public abstract boolean checkWinCondition(ListOfCards handCards);
+    public boolean checkWinCondition(ListOfCards handCards)
+    {
+        return false;
+    };
 }
