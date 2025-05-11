@@ -25,7 +25,7 @@ public abstract class GameRule {
 
     public static boolean checkSequence(ListOfCards cards) {
         for(int i = 0; i < cards.getSize() - 1; i++) {
-            if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank() + 1)
+            if(cards.getCardAt(i).getRank() + 1 != cards.getCardAt(i+1).getRank())
                 return false;
         }
         return true;

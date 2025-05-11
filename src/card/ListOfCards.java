@@ -11,8 +11,8 @@ public class ListOfCards {
     public ListOfCards() {}
 
     public ListOfCards(ArrayList<Card> cardList) {
-        this.cardList=cardList;
-        this.size=cardList.size();
+        this.cardList = new ArrayList<>(cardList);
+        this.size = cardList.size();
     }
 
     public int getSize()
@@ -104,7 +104,6 @@ public class ListOfCards {
         for (Card card : cardList) {
             if (card.isSelected()) {
                 cardsSelected.add(card);
-
             }
         }
         return new ListOfCards(cardsSelected);
@@ -115,7 +114,6 @@ public class ListOfCards {
         for (Card card : cardList) {
             if (!card.isSelected()) {
                 cardsNotSelected.add(card);
-
             }
         }
         return new ListOfCards(cardsNotSelected);
