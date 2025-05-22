@@ -1,9 +1,6 @@
 package control;
 
-import card.Card;
 import card.ListOfCards;
-import player.AbstractPlayer;
-import player.Bot;
 import player.Player;
 
 import java.util.Scanner;
@@ -16,7 +13,7 @@ public class ReddogControl {
         startGame();
     }
     public void startGame(){
-        Player player= new Player("Reddog",1000);
+        ReddogPlayer player= new ReddogPlayer("Reddog",1000);
 
         while(true){
             System.out.println("Welcome to Red Dog");

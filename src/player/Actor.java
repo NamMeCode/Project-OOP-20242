@@ -3,7 +3,7 @@ import card.Card;
 import card.ListOfCards;
 import rule.*;
 
-public abstract class AbstractPlayer implements Comparable<AbstractPlayer>{
+public abstract class Actor implements Comparable<Actor>{
     public void setRule(String gameType) {
         switch (gameType) {
             case "ThirteenS":
@@ -28,7 +28,8 @@ public abstract class AbstractPlayer implements Comparable<AbstractPlayer>{
 
         }
     }
-    private ListOfCards cardsOnHand= new ListOfCards();
+    protected ListOfCards cardsOnHand= new ListOfCards();
+    protected String actorType; //player hoặc bot
     private String gameType;
     GameRule rule;
     private static int idGenerator=0;
@@ -39,24 +40,22 @@ public abstract class AbstractPlayer implements Comparable<AbstractPlayer>{
     private String handType;
     private ListOfCards bestCards;
     private boolean isAllIn = false;
-
-    public AbstractPlayer() {
+    public String getActorType()
+    {
+        return actorType;
+    }
+    public Actor() {
         idGenerator++;
         id = idGenerator;
     }
 
     //poker
-    public AbstractPlayer(String gameType, int initialStack) {
+    public Actor(String gameType, int initialStack) {
         this.gameType = gameType;
         this.chipStack = initialStack;
         this.id = ++idGenerator;
     }
-    public int getSpread()
-    {
-        if (cardsOnHand.getSize()!=3)
-            return -2;
-        return Math.abs(cardsOnHand.getCardAt(0).getRank()-cardsOnHand.getCardAt(1).getRank())-1;
-    }
+
     public int getId() {
         return id;
     }
@@ -182,7 +181,7 @@ public abstract class AbstractPlayer implements Comparable<AbstractPlayer>{
         };
     }
 
-    public int compareKicker(AbstractPlayer other) {
+    public int compareKicker(Actor other) {
         switch (handType) {
             case "Straight Flush", "Straight" -> {
                 return 0;
@@ -217,7 +216,7 @@ public abstract class AbstractPlayer implements Comparable<AbstractPlayer>{
         }
     }
 
-    public int compareTo(AbstractPlayer other) {
+    public int compareTo(Actor other) {
         int result = Integer.compare(this.getHandRank(), other.getHandRank());
         if(result == 0) result = Integer.compare(this.getMainHandCard(), other.getMainHandCard());
         if(result == 0) result = compareKicker(other);

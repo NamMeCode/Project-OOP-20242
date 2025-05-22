@@ -4,10 +4,7 @@ import card.ListOfCards;
 import player.Player;
 
 public class ReddogRule extends GameRule {
-    public boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards)
-    {
-        return true;
-    }
+
     public boolean checkWinCondition(ListOfCards handCards)
     {
         if (handCards.getSize()!=3)

@@ -1,9 +1,9 @@
 package rule;
 
 import card.ListOfCards;
-import player.AbstractPlayer;
+import player.Actor;
 
-public class PokerRule {
+public class PokerRule  {
     public ListOfCards checkStraightFlush(ListOfCards cards) {
         cards.sortSuitRank();
         ListOfCards tempCards = new ListOfCards();
@@ -179,7 +179,7 @@ public class PokerRule {
         return tempCards;
     }
 
-    public void checkHandRank(AbstractPlayer player, ListOfCards cardsOnTable) {
+    public void checkHandRank(Actor player, ListOfCards cardsOnTable) {
         ListOfCards mergeCards = new ListOfCards(player.getCardsOnHand().getCardList());
         mergeCards.addAll(cardsOnTable);
         ListOfCards bestCards;

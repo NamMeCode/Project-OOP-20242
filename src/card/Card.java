@@ -58,6 +58,9 @@ public class Card {
     }
 
 
+    public boolean checkSameColour(Card card) {
+        return (this.getSuit() >= 3 && card.getSuit() >= 3) || (this.getSuit() <= 2 && card.getSuit() <= 2);
+    }
 
 
 

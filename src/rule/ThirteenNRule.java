@@ -3,7 +3,7 @@ package rule;
 import card.Card;
 import card.ListOfCards;
 
-public class ThirteenNRule extends GameRule {
+public class ThirteenNRule extends ThirteenRule {
     public static boolean checkPair(ListOfCards cards) {
         return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
                 cards.getCardAt(0).checkSameColour(cards.getCardAt(1));

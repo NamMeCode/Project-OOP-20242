@@ -1,8 +1,8 @@
 package control;
 
 import card.ListOfCards;
-import player.AbstractPlayer;
-import player.Bot;
+import player.Actor;
+import player.ThirteenBot;
 import player.Player;
 import rule.PokerRule;
 
@@ -12,8 +12,8 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class PokerControl {
-    final ArrayList<AbstractPlayer> players = new ArrayList<AbstractPlayer>();
-    AbstractPlayer dealer;
+    final ArrayList<Actor> players = new ArrayList<Actor>();
+    Actor dealer;
     ListOfCards Deck = new ListOfCards();
     PokerRule rule = new PokerRule();
     Scanner scanner = new Scanner(System.in);
@@ -27,7 +27,7 @@ public class PokerControl {
         }
         for(int i = 0; i < numberOfBots; i++) {
             // fix Bot
-            players.add(new Bot("Poker"));
+            players.add(new ThirteenBot("Poker"));
         }
         this.dealer = players.getFirst();
     }
@@ -39,7 +39,7 @@ public class PokerControl {
             System.out.println("Do you want to continue? (Yes, No)");
             command = scanner.next();
             if(command.equals("No")) break;
-            for (AbstractPlayer player : players) {
+            for (Actor player : players) {
                 if (player.getChipStack() < BIG_BLIND) {
                     System.out.println("Player " + player.getId() + " is unable to play, game must stop");
                     break outer;
@@ -49,28 +49,28 @@ public class PokerControl {
     }
 
     private class Pot {
-        ArrayList<AbstractPlayer> playersCanWin = new ArrayList<>();
+        ArrayList<Actor> playersCanWin = new ArrayList<>();
         int totalAmount;
 
         Pot() {}
-        Pot(ArrayList<AbstractPlayer> players) {
+        Pot(ArrayList<Actor> players) {
             playersCanWin = players;
         }
 
-        void add(AbstractPlayer player) {
+        void add(Actor player) {
             playersCanWin.add(player);
         }
     }
 
     private class PokerGame {
-        ArrayList<AbstractPlayer> playersInGame;
-        ArrayList<AbstractPlayer> playersWinGame = new ArrayList<AbstractPlayer>();
+        ArrayList<Actor> playersInGame;
+        ArrayList<Actor> playersWinGame = new ArrayList<Actor>();
         ArrayList<Pot> pots = new ArrayList<>();
         Pot currentPot;
         ListOfCards cardsOnTable = new ListOfCards();
         boolean isPreFlop = true;
 
-        public PokerGame(ArrayList<AbstractPlayer> players) {
+        public PokerGame(ArrayList<Actor> players) {
             playersInGame = new ArrayList<>(players);
             currentPot = new Pot(players);
             pots.add(currentPot);
@@ -86,8 +86,8 @@ public class PokerControl {
 
         public void startGame() {
             // player may be bot -> runtime error
-            AbstractPlayer smallBlind = playersInGame.get((playersInGame.indexOf(dealer) + 1) % playersInGame.size());
-            AbstractPlayer bigBlind = playersInGame.get((playersInGame.indexOf(dealer) + 2) % playersInGame.size());
+            Actor smallBlind = playersInGame.get((playersInGame.indexOf(dealer) + 1) % playersInGame.size());
+            Actor bigBlind = playersInGame.get((playersInGame.indexOf(dealer) + 2) % playersInGame.size());
             smallBlind.setCurrentBet(SMALL_BLIND);
             smallBlind.setChipStack(smallBlind.getChipStack() - SMALL_BLIND);
             bigBlind.setCurrentBet(BIG_BLIND);
@@ -98,11 +98,11 @@ public class PokerControl {
         public void mainGame() {
             // pre-flop
             Deck.shuffle();
-            for(AbstractPlayer player: playersInGame) {
+            for(Actor player: playersInGame) {
                 player.setCardsOnHand(Deck.drawCard(2));
             }
             System.out.println("Cards on hands are:");
-            for(AbstractPlayer player: playersInGame) {
+            for(Actor player: playersInGame) {
                 System.out.println("PLayer " + player.getId() + ": " + player.getCardsOnHand().toString());
             }
             bettingRound();
@@ -112,7 +112,7 @@ public class PokerControl {
             }
             // flop
             cardsOnTable.addAll(Deck.drawCard(3));
-            for(AbstractPlayer player: playersInGame) {
+            for(Actor player: playersInGame) {
                 System.out.println("PLayer " + player.getId() + ": " + player.getCardsOnHand().toString());
             }
             System.out.println(cardsOnTable.toString());
@@ -123,7 +123,7 @@ public class PokerControl {
             }
             // turn
             cardsOnTable.addCard(Deck.drawCard());
-            for(AbstractPlayer player: playersInGame) {
+            for(Actor player: playersInGame) {
                 System.out.println("PLayer " + player.getId() + ": " + player.getCardsOnHand().toString());
             }
             System.out.println(cardsOnTable.toString());
@@ -134,7 +134,7 @@ public class PokerControl {
             }
             // river
             cardsOnTable.addCard(Deck.drawCard());
-            for(AbstractPlayer player: playersInGame) {
+            for(Actor player: playersInGame) {
                 System.out.println("PLayer " + player.getId() + ": " + player.getCardsOnHand().toString());
             }
             System.out.println(cardsOnTable.toString());
@@ -144,10 +144,10 @@ public class PokerControl {
                 return;
             }
             // showdown
-            for(AbstractPlayer player: playersInGame) {
+            for(Actor player: playersInGame) {
                 rule.checkHandRank(player, cardsOnTable);
             }
-            for(AbstractPlayer player: playersInGame) {
+            for(Actor player: playersInGame) {
                 System.out.println("Player " + player.getId() + ": " + player.getHandRank() + " " + player.getHandType() + " " + player.getBestCards().toString());
             }
             // determine winner
@@ -159,29 +159,29 @@ public class PokerControl {
         }
 
         public void endGame() {
-            for(AbstractPlayer player: playersWinGame) {
+            for(Actor player: playersWinGame) {
                 System.out.println("Player " + player.getId() + " wins");
             }
             for(Pot pot: pots) {
-                ArrayList<AbstractPlayer> playersWinPot = new ArrayList<>();
-                for(AbstractPlayer player: playersWinGame) {
+                ArrayList<Actor> playersWinPot = new ArrayList<>();
+                for(Actor player: playersWinGame) {
                     if(pot.playersCanWin.contains(player)) playersWinPot.add(player);
                 }
-                for(AbstractPlayer player: playersWinPot) {
+                for(Actor player: playersWinPot) {
                     // winning amount maybe of float type
                     player.setChipStack(player.getChipStack() + pot.totalAmount/playersWinPot.size());
                 }
             }
             dealer = players.get((players.indexOf(dealer) + 1) % players.size());
-            for(AbstractPlayer player: players) {
+            for(Actor player: players) {
                 System.out.println("Player " + player.getId() + " has " + player.getChipStack());
                 player.setAllIn(false);
             }
         }
 
         public void bettingRound() {
-            AbstractPlayer playerLastRaise;
-            AbstractPlayer currentPlayer = null;
+            Actor playerLastRaise;
+            Actor currentPlayer = null;
             int currentPlayerIndex = 0;
             int currentBet = 0;
             int lastRaise = 0;
@@ -293,16 +293,16 @@ public class PokerControl {
             } while(playersInGame.size() > 1);
 
             if(isAllIn) {
-                ArrayList<AbstractPlayer> playersAllIn = new ArrayList<>();
-                for(AbstractPlayer player: playersInGame) {
+                ArrayList<Actor> playersAllIn = new ArrayList<>();
+                for(Actor player: playersInGame) {
                     if(player.isAllIn()) playersAllIn.add(player);
                 }
-                playersAllIn.sort(Comparator.comparing(AbstractPlayer::getCurrentBet));
-                for(AbstractPlayer playerAllIn : playersAllIn) {
+                playersAllIn.sort(Comparator.comparing(Actor::getCurrentBet));
+                for(Actor playerAllIn : playersAllIn) {
                     int amountCurrentPot = 0;
                     Pot newPot = new Pot();
                     pots.add(newPot);
-                    for(AbstractPlayer other: playersInGame) {
+                    for(Actor other: playersInGame) {
                         if(playerAllIn.getCurrentBet() <= other.getCurrentBet()) {
                             if(!other.equals(playerAllIn)) newPot.add(other);
                             amountCurrentPot += playerAllIn.getCurrentBet();
@@ -314,7 +314,7 @@ public class PokerControl {
                     currentPot = newPot;
                 }
             }
-            for(AbstractPlayer player: playersInGame) player.setCurrentBet(0);
+            for(Actor player: playersInGame) player.setCurrentBet(0);
         }
     }
 }

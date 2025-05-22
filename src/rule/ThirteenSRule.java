@@ -3,7 +3,7 @@ package rule;
 import card.ListOfCards;
 import card.Card;
 
-public class ThirteenSRule extends GameRule {
+public class ThirteenSRule extends ThirteenRule {
     public static boolean checkSequence(ListOfCards cards) {
         for(int i = 0; i < cards.getSize() - 1; i++) {
             if(cards.getCardAt(i).getRank() == 15) return false;

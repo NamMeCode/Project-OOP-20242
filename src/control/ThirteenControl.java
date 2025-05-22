@@ -1,15 +1,15 @@
 package control;
 
 import card.ListOfCards;
-import player.AbstractPlayer;
+import player.Actor;
 import player.Player;
-import player.Bot;
+import player.ThirteenBot;
 import rule.ThirteenSRule;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class ThirteenControl {
-    final ArrayList<AbstractPlayer> playersInGame = new ArrayList<AbstractPlayer>();
-    ArrayList<AbstractPlayer> playersWinGame = new ArrayList<AbstractPlayer>();
+    final ArrayList<Actor> playersInGame = new ArrayList<Actor>();
+    ArrayList<Actor> playersWinGame = new ArrayList<Actor>();
     private final String gameType;
     ListOfCards Deck = new ListOfCards();
     ThirteenSRule rule = new ThirteenSRule();
@@ -21,12 +21,12 @@ public class ThirteenControl {
             playersInGame.add(new Player(gameType));
         }
         for (int i = 0; i < numberOfBots; i++) {
-            playersInGame.add(new Bot(gameType));
+            playersInGame.add(new ThirteenBot(gameType));
         }
-        for (AbstractPlayer player : playersInGame) {
+        for (Actor player : playersInGame) {
             player.setCardsOnHand(Deck.drawCard(13));
         }
-        for(AbstractPlayer player: playersInGame) {
+        for(Actor player: playersInGame) {
             if(player.isWin()) {
                 playersWinGame.add(player);
                 playersInGame.remove(player);
@@ -43,7 +43,7 @@ public class ThirteenControl {
     }
     public void mainGame() {
         guideLines();
-        AbstractPlayer playerWinLastRound = playersInGame.getFirst();
+        Actor playerWinLastRound = playersInGame.getFirst();
 
         while (playersInGame.size() > 1) {
             ThirteenRound currentRound = new ThirteenRound(playersInGame, playerWinLastRound);
@@ -56,20 +56,20 @@ public class ThirteenControl {
     }
 
     private class ThirteenRound {
-        ArrayList<AbstractPlayer> playersInRound =new ArrayList<AbstractPlayer>();
-        AbstractPlayer playerLastInRound;
+        ArrayList<Actor> playersInRound =new ArrayList<Actor>();
+        Actor playerLastInRound;
         ListOfCards cardsOnTable = new ListOfCards();
         Scanner scanner= new Scanner(System.in);
 
-        public ThirteenRound(ArrayList<AbstractPlayer> playersInGame, AbstractPlayer playerStartRound) {
+        public ThirteenRound(ArrayList<Actor> playersInGame, Actor playerStartRound) {
             initializePlayersInRound(playersInGame);
             int currentPlayerIndex = playersInRound.indexOf(playerStartRound);
-            AbstractPlayer currentPlayer = playerStartRound;
+            Actor currentPlayer = playerStartRound;
             while(playersInRound.size() > 1) {
                 turnOfAPlayer: while(true) {
                     MenuOfPlayer(currentPlayer);
-                    if (currentPlayer instanceof Bot) {
-                        if (!((Bot) currentPlayer).autoPlayCards(cardsOnTable))
+                    if (currentPlayer instanceof ThirteenBot) {
+                        if (!((ThirteenBot) currentPlayer).autoPlayCards(cardsOnTable))
                         {
                             playersInRound.remove(currentPlayer);
                             currentPlayerIndex--;
@@ -128,17 +128,17 @@ public class ThirteenControl {
             playerLastInRound = playersInRound.getFirst();
         }
 
-        public void initializePlayersInRound(ArrayList<AbstractPlayer> playersInGame) {
-            for (AbstractPlayer player : playersInGame) {
+        public void initializePlayersInRound(ArrayList<Actor> playersInGame) {
+            for (Actor player : playersInGame) {
                 playersInRound.add(player);
             }
         }
 
-        public AbstractPlayer getPlayerLastInRound() {
+        public Actor getPlayerLastInRound() {
             return playerLastInRound;
         }
 
-        public void MenuOfPlayer(AbstractPlayer player) {
+        public void MenuOfPlayer(Actor player) {
             System.out.println("The cards on table are: "+cardsOnTable.toString());
 
             if (player instanceof Player) {
@@ -148,7 +148,7 @@ public class ThirteenControl {
 
 
             }
-            if (player instanceof Bot)
+            if (player instanceof ThirteenBot)
             {
                 System.out.println("Bot "+player.getId()+" Is Playing..");
                 //remaining code
