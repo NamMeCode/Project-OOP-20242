@@ -2,12 +2,12 @@ package player;
 
 import card.ListOfCards;
 import card.Card;
-public class ThirteenBot extends Actor {
-    public ThirteenBot(String gameType) {
+public class ThirteenSBot extends Actor {
+    public ThirteenSBot(String gameType) {
         setGameType(gameType);
         setRule(gameType);
     }
-    public ThirteenBot(String gameType, int chipStack) {
+    public ThirteenSBot(String gameType, int chipStack) {
         setChipStack(chipStack);
         setGameType(gameType);
         setRule(gameType);

@@ -3,7 +3,7 @@ package control;
 import card.ListOfCards;
 import player.Actor;
 import player.Player;
-import player.ThirteenBot;
+import player.ThirteenSBot;
 import rule.ThirteenSRule;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,7 +21,7 @@ public class ThirteenControl {
             playersInGame.add(new Player(gameType));
         }
         for (int i = 0; i < numberOfBots; i++) {
-            playersInGame.add(new ThirteenBot(gameType));
+            playersInGame.add(new ThirteenSBot(gameType));
         }
         for (Actor player : playersInGame) {
             player.setCardsOnHand(Deck.drawCard(13));
@@ -68,8 +68,8 @@ public class ThirteenControl {
             while(playersInRound.size() > 1) {
                 turnOfAPlayer: while(true) {
                     MenuOfPlayer(currentPlayer);
-                    if (currentPlayer instanceof ThirteenBot) {
-                        if (!((ThirteenBot) currentPlayer).autoPlayCards(cardsOnTable))
+                    if (currentPlayer instanceof ThirteenSBot) {
+                        if (!((ThirteenSBot) currentPlayer).autoPlayCards(cardsOnTable))
                         {
                             playersInRound.remove(currentPlayer);
                             currentPlayerIndex--;
@@ -148,7 +148,7 @@ public class ThirteenControl {
 
 
             }
-            if (player instanceof ThirteenBot)
+            if (player instanceof ThirteenSBot)
             {
                 System.out.println("Bot "+player.getId()+" Is Playing..");
                 //remaining code

@@ -2,7 +2,7 @@ package control;
 
 import card.ListOfCards;
 import player.Actor;
-import player.ThirteenBot;
+import player.ThirteenSBot;
 import player.Player;
 import rule.PokerRule;
 
@@ -27,7 +27,7 @@ public class PokerControl {
         }
         for(int i = 0; i < numberOfBots; i++) {
             // fix Bot
-            players.add(new ThirteenBot("Poker"));
+            players.add(new ThirteenSBot("Poker"));
         }
         this.dealer = players.getFirst();
     }

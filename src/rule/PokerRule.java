@@ -3,8 +3,8 @@ package rule;
 import card.ListOfCards;
 import player.Actor;
 
-public class PokerRule  {
-    public ListOfCards checkStraightFlush(ListOfCards cards) {
+public class PokerRule extends GameRule  {
+    public ListOfCards cardsFromStraightFlush(ListOfCards cards) {
         cards.sortSuitRank();
         ListOfCards tempCards = new ListOfCards();
         for(int i = cards.getSize() - 5; i >= 0; i--) {
@@ -18,7 +18,7 @@ public class PokerRule  {
         return null;
     }
 
-    public ListOfCards checkFourOfAKind(ListOfCards cards) {
+    public ListOfCards cardsFromFourOfAKind(ListOfCards cards) {
         cards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
         for(int i = cards.getSize() - 4; i >= 0; i--) {
@@ -38,7 +38,7 @@ public class PokerRule  {
         return null;
     }
 
-    public ListOfCards checkFullHouse(ListOfCards cards) {
+    public ListOfCards cardsFromFullHouse(ListOfCards cards) {
         cards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
         for(int i = cards.getSize() - 3; i >= 0; i--) {
@@ -63,7 +63,7 @@ public class PokerRule  {
         return null;
     }
 
-    public ListOfCards checkFlush(ListOfCards cards) {
+    public ListOfCards cardsFromFlush(ListOfCards cards) {
         cards.sortSuitRank();
         ListOfCards tempCards = new ListOfCards();
         for(int i = cards.getSize() - 5; i >= 0; i--) {
@@ -76,7 +76,7 @@ public class PokerRule  {
         return null;
     }
 
-    public ListOfCards checkStraight(ListOfCards cards) {
+    public ListOfCards cardsFromStraight(ListOfCards cards) {
         ListOfCards listOfCards = new ListOfCards(cards.getCardList());
         listOfCards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
@@ -98,7 +98,7 @@ public class PokerRule  {
         return null;
     }
 
-    public ListOfCards checkThreeOfAKind(ListOfCards cards) {
+    public ListOfCards cardsFromThreeOfAKind(ListOfCards cards) {
         cards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
         for(int i = cards.getSize() - 3; i >= 0; i--) {
@@ -118,7 +118,7 @@ public class PokerRule  {
         return null;
     }
 
-    public ListOfCards checkTwoPair(ListOfCards cards) {
+    public ListOfCards cardsFromTwoPair(ListOfCards cards) {
         cards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
         for(int i = cards.getSize() - 2; i >= 0; i--) {
@@ -150,7 +150,7 @@ public class PokerRule  {
         return null;
     }
 
-    public ListOfCards checkPair(ListOfCards cards) {
+    public ListOfCards cardsFromPair(ListOfCards cards) {
         cards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
         for(int i = cards.getSize() - 2; i >= 0; i--) {
@@ -170,7 +170,7 @@ public class PokerRule  {
         return null;
     }
 
-    public ListOfCards checkHighCard(ListOfCards cards) {
+    public ListOfCards cardsFromHighCard(ListOfCards cards) {
         cards.sortRankSuit();
         ListOfCards tempCards = new ListOfCards();
         for (int i = 1; i <= 5; i++) {
@@ -183,41 +183,41 @@ public class PokerRule  {
         ListOfCards mergeCards = new ListOfCards(player.getCardsOnHand().getCardList());
         mergeCards.addAll(cardsOnTable);
         ListOfCards bestCards;
-        if((bestCards = checkStraightFlush(mergeCards)) != null) {
+        if((bestCards = cardsFromStraightFlush(mergeCards)) != null) {
             player.setHandType("Straight Flush");
             player.setBestCards(bestCards);
         }
-        else if((bestCards = checkFourOfAKind(mergeCards)) != null) {
+        else if((bestCards = cardsFromFourOfAKind(mergeCards)) != null) {
             player.setHandType("Four Of A Kind");
             player.setBestCards(bestCards);
         }
-        else if((bestCards = checkFullHouse(mergeCards)) != null) {
+        else if((bestCards = cardsFromFullHouse(mergeCards)) != null) {
             player.setHandType("Full House");
             player.setBestCards(bestCards);
         }
-        else if((bestCards = checkFlush(mergeCards)) != null) {
+        else if((bestCards = cardsFromFlush(mergeCards)) != null) {
             player.setHandType("Flush");
             player.setBestCards(bestCards);
         }
-        else if((bestCards = checkStraight(mergeCards)) != null) {
+        else if((bestCards = cardsFromStraight(mergeCards)) != null) {
             player.setHandType("Straight");
             player.setBestCards(bestCards);
         }
-        else if((bestCards = checkThreeOfAKind(mergeCards)) != null) {
+        else if((bestCards = cardsFromThreeOfAKind(mergeCards)) != null) {
             player.setHandType("Three Of A Kind");
             player.setBestCards(bestCards);
         }
-        else if((bestCards = checkTwoPair(mergeCards)) != null) {
+        else if((bestCards = cardsFromTwoPair(mergeCards)) != null) {
             player.setHandType("Two Pair");
             player.setBestCards(bestCards);
         }
-        else if((bestCards = checkPair(mergeCards)) != null) {
+        else if((bestCards = cardsFromPair(mergeCards)) != null) {
             player.setHandType("Pair");
             player.setBestCards(bestCards);
         }
         else {
             player.setHandType("High Card");
-            player.setBestCards(checkHighCard(mergeCards));
+            player.setBestCards(cardsFromHighCard(mergeCards));
         }
     }
 }

@@ -13,7 +13,7 @@ public class ReddogControl {
         startGame();
     }
     public void startGame(){
-        ReddogPlayer player= new ReddogPlayer("Reddog",1000);
+        ReddogPlayer player= new ReddogPlayer(1000);
 
         while(true){
             System.out.println("Welcome to Red Dog");
