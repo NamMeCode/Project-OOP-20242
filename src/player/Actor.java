@@ -139,7 +139,7 @@ public abstract class Actor implements Comparable<Actor>{
         cardsOnHand.sortRankSuit();
     }
 
-    // poker
+
     public void setCurrentBet(int currentBet) {
         this.currentBet = currentBet;
     }
@@ -155,7 +155,7 @@ public abstract class Actor implements Comparable<Actor>{
     public int getChipStack() {
         return chipStack;
     }
-
+    // poker
     public void setAllIn(boolean allIn) {
         isAllIn = allIn;
     }
