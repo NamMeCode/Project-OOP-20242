@@ -22,6 +22,10 @@ public abstract class Actor implements Comparable<Actor>{
                 this.rule=new ReddogRule();
                 break;
             }
+            case "Poker":
+            {
+                this.rule=new PokerRule();
+            }
 
 
 

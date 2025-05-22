@@ -2,7 +2,7 @@ package control;
 
 import card.ListOfCards;
 import player.Player;
-
+import player.*;
 import java.util.Scanner;
 
 public class ReddogControl {
@@ -29,11 +29,11 @@ public class ReddogControl {
 
 
     }
-    public void MenuOfPlayer(Player player) {
+    public void MenuOfPlayer(ReddogPlayer player) {
         System.out.println("The cards on hand are: " + player.toStringCardsOnHand());
 
     }
-    public void startRound(Player player,int bet)
+    public void startRound(ReddogPlayer player,int bet)
     {
 
         if (bet>player.getChipStack())
