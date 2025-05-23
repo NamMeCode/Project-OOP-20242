@@ -4,12 +4,12 @@ import card.Card;
 import card.ListOfCards;
 
 public class ThirteenNRule extends ThirteenRule {
-    public static boolean checkPair(ListOfCards cards) {
+    public boolean checkPair(ListOfCards cards) {
         return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
                 cards.getCardAt(0).checkSameColour(cards.getCardAt(1));
     }
 
-    public static boolean checkSequence(ListOfCards cards) {
+    public boolean checkSequence(ListOfCards cards) {
         for(int i = 0; i < cards.getSize() - 1; i++) {
             if(cards.getCardAt(i).getRank() == 15) return false;
             Card card1 = cards.getCardAt(i), card2 = cards.getCardAt(i + 1);
@@ -38,11 +38,11 @@ public class ThirteenNRule extends ThirteenRule {
             case 1: return "Single";
             case 2: if(checkPair(cards)) return "Pair";
             case 3:
-                if(checkThreeOfAKind(cards)) return "ThreeOfAKind";
+                if(checkThreeCardsSameRank(cards)) return "ThreeOfAKind";
                 else if(checkSequence(cards)) return "Sequence";
                 else return "Invalid";
             case 4:
-                if(checkFourOfAKind(cards)) return "FourOfAKind";
+                if(checkFourCardsSameRank(cards)) return "FourOfAKind";
                 else if(checkSequence(cards)) return "Sequence";
                 else return "Invalid";
             case 5:
@@ -55,36 +55,6 @@ public class ThirteenNRule extends ThirteenRule {
         }
     }
 
-    public boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards) {
-        if (playCards.getSize()==0)
-            return false;
-        if(tableCards.getSize() == 0) {
-            playCards.sortRankSuit();
-            return !handType(playCards).equals("Invalid");
-        }
-
-        if(playCards.getSize() != tableCards.getSize()) {
-            if(tableCards.getCardAt(0).getRank() != 15) return false;
-            if(tableCards.getSize() == 1) {
-                if(checkFourOfAKind(playCards) || checkDoubleSequence(playCards)) return true;
-            }
-            else if(tableCards.getSize() == 2) {
-                if(checkDoubleSequence(playCards) && playCards.getSize() >= 8) return true;
-            }
-            else if(tableCards.getSize() == 3) {
-                if(checkDoubleSequence(playCards) && playCards.getSize() >= 10) return true;
-            }
-            else return false;
-        }
-
-        playCards.sortRankSuit();
-        tableCards.sortRankSuit();
-        String typePlayCards = handType(playCards);
-        String typeTableCards = handType(tableCards);
-        if(!typePlayCards.equals(typeTableCards)) return false;
-
-        return playCards.getCardAt(playCards.getSize() - 1).compareCard(tableCards.getCardAt(tableCards.getSize() - 1)) > 0;
-    }
     public boolean checkWinCondition(ListOfCards handCards) {
         // win with no card on hand
         return handCards.getCardList().isEmpty();

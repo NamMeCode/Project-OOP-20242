@@ -1,7 +1,6 @@
 package rule;
 
 import card.ListOfCards;
-import player.Player;
 
 public class ReddogRule extends GameRule {
 
@@ -16,7 +15,7 @@ public class ReddogRule extends GameRule {
             return true;
         }
         return false;
-    };
+    }
     int getSpread(ListOfCards cardsOnHand) {
         if (cardsOnHand.getSize()!=2)
             return -1;

@@ -1,7 +1,6 @@
 package control;
 
 import card.ListOfCards;
-import player.Player;
 import player.*;
 import rule.GameRule;
 
@@ -51,11 +50,11 @@ public class ReddogControl {
             player.addCard(deck.drawCard());
             player.addCard(deck.drawCard());
             MenuOfPlayer(player);
-            if (GameRule.checkPair(player.getCardsOnHand()))
+            if (GameRule.checkTwoCardsSameRank(player.getCardsOnHand()))
             {
                 player.addCard(deck.drawCard());
                 MenuOfPlayer(player);
-                if (GameRule.checkThreeOfAKind(player.getCardsOnHand()))
+                if (GameRule.checkThreeCardsSameRank(player.getCardsOnHand()))
                 {
 
                     System.out.println("Three of a kind, you win!");

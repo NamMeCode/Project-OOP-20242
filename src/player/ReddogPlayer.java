@@ -1,6 +1,6 @@
 package player;
 
-public class ReddogPlayer extends Player {
+public class ReddogPlayer extends ChipActor {
     public ReddogPlayer(int chipStack) {
         super("Reddog", chipStack);
     }

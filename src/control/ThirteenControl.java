@@ -2,7 +2,7 @@ package control;
 
 import card.ListOfCards;
 import player.Actor;
-import player.Player;
+import player.ThirteenPlayer;
 import player.ThirteenSBot;
 import rule.ThirteenSRule;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class ThirteenControl {
         Deck.initializeDeck(gameType);
         this.gameType = gameType;
         for (int i = 0; i < numberOfPlayers; i++) {
-            playersInGame.add(new Player(gameType));
+            playersInGame.add(new ThirteenPlayer(gameType));
         }
         for (int i = 0; i < numberOfBots; i++) {
             playersInGame.add(new ThirteenSBot(gameType));
@@ -69,8 +69,16 @@ public class ThirteenControl {
                 turnOfAPlayer: while(true) {
                     MenuOfPlayer(currentPlayer);
                     if (currentPlayer instanceof ThirteenSBot) {
-                        if (!((ThirteenSBot) currentPlayer).autoPlayCards(cardsOnTable))
+                        if (((ThirteenSBot) currentPlayer).autoPlayCards(cardsOnTable))
                         {
+                            if (currentPlayer.isWin()) {
+                                playersWinGame.add(currentPlayer);
+                                playersInRound.remove(currentPlayer);
+                                playersInGame.remove(currentPlayer);
+                                currentPlayerIndex --;
+                            }
+                        }
+                        else {
                             playersInRound.remove(currentPlayer);
                             currentPlayerIndex--;
                         }
@@ -141,7 +149,7 @@ public class ThirteenControl {
         public void MenuOfPlayer(Actor player) {
             System.out.println("The cards on table are: "+cardsOnTable.toString());
 
-            if (player instanceof Player) {
+            if (player instanceof ThirteenPlayer) {
                 System.out.println("Player "+player.getId()+" Is Now Playing");
                 System.out.println("The cards on hand are: " + player.toStringCardsOnHand());
                 System.out.println("Your selected cards are: " + player.toStringCardsSelected());

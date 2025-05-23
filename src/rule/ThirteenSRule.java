@@ -4,7 +4,7 @@ import card.ListOfCards;
 import card.Card;
 
 public class ThirteenSRule extends ThirteenRule {
-    public static boolean checkSequence(ListOfCards cards) {
+    public boolean checkSequence(ListOfCards cards) {
         for(int i = 0; i < cards.getSize() - 1; i++) {
             if(cards.getCardAt(i).getRank() == 15) return false;
             if(cards.getCardAt(i).getRank() != cards.getCardAt(i+1).getRank() + 1)
@@ -29,13 +29,13 @@ public class ThirteenSRule extends ThirteenRule {
     public String handType(ListOfCards cards) {
         switch (cards.getSize()) {
             case 1: return "Single";
-            case 2: if(checkPair(cards)) return "Pair";
+            case 2: if(checkTwoCardsSameRank(cards)) return "Pair";
             case 3:
-                if(checkThreeOfAKind(cards)) return "ThreeOfAKind";
+                if(checkThreeCardsSameRank(cards)) return "ThreeOfAKind";
                 else if(checkSequence(cards)) return "Sequence";
                 else return "Invalid";
             case 4:
-                if(checkFourOfAKind(cards)) return "FourOfAKind";
+                if(checkFourCardsSameRank(cards)) return "FourOfAKind";
                 else if(checkSequence(cards)) return "Sequence";
                 else return "Invalid";
             case 5:
@@ -46,39 +46,6 @@ public class ThirteenSRule extends ThirteenRule {
                 else if(checkDoubleSequence(cards)) return "DoubleSequence";
                 else return "Invalid";
         }
-    }
-
-    // should be static
-    public boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards) {
-        if (playCards.getSize()==0)
-            return false;
-        if(tableCards.getSize() == 0) {
-            playCards.sortRankSuit();
-            return !handType(playCards).equals("Invalid");
-        }
-
-        // check bombs
-        if(playCards.getSize() != tableCards.getSize()) {
-            if(tableCards.getCardAt(0).getRank() != 15) return false;
-            if(tableCards.getSize() == 1) {
-                if(checkFourOfAKind(playCards) || checkDoubleSequence(playCards)) return true;
-            }
-            else if(tableCards.getSize() == 2) {
-                if(checkDoubleSequence(playCards) && playCards.getSize() >= 8) return true;
-            }
-            else if(tableCards.getSize() == 3) {
-                if(checkDoubleSequence(playCards) && playCards.getSize() >= 10) return true;
-            }
-            else return false;
-        }
-
-        playCards.sortRankSuit();
-        tableCards.sortRankSuit();
-        String typePlayCards = handType(playCards);
-        String typeTableCards = handType(tableCards);
-        if(!typePlayCards.equals(typeTableCards)) return false;
-
-        return playCards.getCardAt(playCards.getSize() - 1).compareCard(tableCards.getCardAt(tableCards.getSize() - 1)) > 0;
     }
 
     public boolean checkWinCondition(ListOfCards handCards) {
@@ -92,7 +59,7 @@ public class ThirteenSRule extends ThirteenRule {
             for(int i=1; i<=4; i++) {
                 tempCards.addCard(handCards.getCardAt(handCards.getSize() - i));
             }
-            if(checkFourOfAKind(tempCards)) return true;
+            if(checkFourCardsSameRank(tempCards)) return true;
         }
 
         //win with dragon sequence

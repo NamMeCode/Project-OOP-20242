@@ -1,7 +1,7 @@
 package rule;
 
 import card.ListOfCards;
-import player.Actor;
+import player.PokerPlayer;
 
 public class PokerRule extends GameRule  {
     public ListOfCards cardsFromStraightFlush(ListOfCards cards) {
@@ -11,7 +11,7 @@ public class PokerRule extends GameRule  {
             for(int j = 0; j < 5; j++) {
                 tempCards.addCard(cards.getCardAt(i + j));
             }
-            if(GameRule.checkSequence(tempCards) && GameRule.checkFlush(tempCards))
+            if(GameRule.checkContinuousRank(tempCards) && GameRule.checkFlush(tempCards))
                 return tempCards;
             tempCards.clear();
         }
@@ -25,7 +25,7 @@ public class PokerRule extends GameRule  {
             for(int j = 0; j < 4; j++) {
                 tempCards.addCard(cards.getCardAt(i + j));
             }
-            if(GameRule.checkFourOfAKind(tempCards)) {
+            if(GameRule.checkFourCardsSameRank(tempCards)) {
                 for(int j = cards.getSize() - 1; j >= 0; j--) {
                     if(!tempCards.contains(cards.getCardAt(j))) {
                         tempCards.addCard(cards.getCardAt(j));
@@ -45,13 +45,13 @@ public class PokerRule extends GameRule  {
             for(int j = 0; j < 3; j++) {
                 tempCards.addCard(cards.getCardAt(i + j));
             }
-            if (GameRule.checkThreeOfAKind(tempCards)) {
+            if (GameRule.checkThreeCardsSameRank(tempCards)) {
                 ListOfCards tempCards2 = new ListOfCards();
                 for(int j = cards.getSize() - 2; j >= 0; j--) {
                     for (int k = 0; k < 2; k++) {
                         tempCards2.addCard(cards.getCardAt(j + k));
                     }
-                    if(!tempCards.contains(tempCards2.getCardAt(0)) && GameRule.checkPair(tempCards2)) {
+                    if(!tempCards.contains(tempCards2.getCardAt(0)) && GameRule.checkTwoCardsSameRank(tempCards2)) {
                         tempCards.addAll(tempCards2);
                         return tempCards;
                     }
@@ -92,7 +92,7 @@ public class PokerRule extends GameRule  {
                     tempCards.addCard(listOfCards.getCardAt(i + j));
                 }
             }
-            if(tempCards.getSize() != 0 && GameRule.checkSequence(tempCards)) return tempCards;
+            if(tempCards.getSize() != 0 && GameRule.checkContinuousRank(tempCards)) return tempCards;
             tempCards.clear();
         }
         return null;
@@ -105,7 +105,7 @@ public class PokerRule extends GameRule  {
             for(int j = 0; j < 3; j++) {
                 tempCards.addCard(cards.getCardAt(i + j));
             }
-            if(GameRule.checkThreeOfAKind(tempCards)) {
+            if(GameRule.checkThreeCardsSameRank(tempCards)) {
                 for(int j = cards.getSize() - 1; j >= 0; j--) {
                     if(!tempCards.contains(cards.getCardAt(j))) {
                         tempCards.addCard(cards.getCardAt(j));
@@ -125,13 +125,13 @@ public class PokerRule extends GameRule  {
             for(int j = 0; j < 2; j++) {
                 tempCards.addCard(cards.getCardAt(i + j));
             }
-            if(GameRule.checkPair(tempCards)) {
+            if(GameRule.checkTwoCardsSameRank(tempCards)) {
                 ListOfCards tempCards2 = new ListOfCards();
                 for(int j = i - 2; j >= 0; j--) {
                     for(int k = 0; k < 2; k++) {
                         tempCards2.addCard(cards.getCardAt(j + k));
                     }
-                    if(GameRule.checkPair(tempCards2)) {
+                    if(GameRule.checkTwoCardsSameRank(tempCards2)) {
                         tempCards.addAll(tempCards2);
                         for(int k = cards.getSize() - 1; k >= 0; k--) {
                             if(!tempCards.contains(cards.getCardAt(k)) &&
@@ -157,7 +157,7 @@ public class PokerRule extends GameRule  {
             for (int j = 0; j < 2; j++) {
                 tempCards.addCard(cards.getCardAt(i + j));
             }
-            if(GameRule.checkPair(tempCards)) {
+            if(GameRule.checkTwoCardsSameRank(tempCards)) {
                 for(int j = cards.getSize() - 1; j >= 0; j--) {
                     if (!tempCards.contains(cards.getCardAt(j))) {
                         tempCards.addCard(cards.getCardAt(j));
@@ -179,7 +179,7 @@ public class PokerRule extends GameRule  {
         return tempCards;
     }
 
-    public void checkHandRank(Actor player, ListOfCards cardsOnTable) {
+    public void checkHandRank(PokerPlayer player, ListOfCards cardsOnTable) {
         ListOfCards mergeCards = new ListOfCards(player.getCardsOnHand().getCardList());
         mergeCards.addAll(cardsOnTable);
         ListOfCards bestCards;

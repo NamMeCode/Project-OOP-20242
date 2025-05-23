@@ -53,12 +53,17 @@ public class ListOfCards {
         size++;
     }
 
-    public boolean removeCard(Card card) {
+    public void removeCard(int index)
+    {
+        cardList.remove(index);
+        size--;
+    }
+
+    public void removeCard(Card card) {
         boolean removed=cardList.remove(card);
         if (removed) {
             size--;
         }
-        return removed;
     }
 
     public void addAll(ListOfCards cards) {
