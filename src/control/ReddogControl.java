@@ -52,7 +52,7 @@ public class ReddogControl {
             player.addCard(deck.drawCard());
             player.addCard(deck.drawCard());
             MenuOfPlayer(player);
-            if (player.getHandType()=="Pair")
+            if (player.getSpread()==-1)
             {
                 player.addCard(deck.drawCard());
                 MenuOfPlayer(player);

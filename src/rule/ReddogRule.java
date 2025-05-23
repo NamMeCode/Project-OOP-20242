@@ -19,7 +19,7 @@ public class ReddogRule extends GameRule {
     };
     int getSpread(ListOfCards cardsOnHand) {
         if (cardsOnHand.getSize()!=2)
-            return -1;
+            return -2;
         else
         {
             return Math.abs(cardsOnHand.getCardAt(0).getRank() -cardsOnHand.getCardAt(1).getRank())-1;
