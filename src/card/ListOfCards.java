@@ -14,6 +14,11 @@ public class ListOfCards {
         this.cardList = new ArrayList<>(cardList);
         this.size = cardList.size();
     }
+    public void removeCard(int index)
+    {
+        cardList.remove(index);
+        size--;
+    }
 
     public int getSize()
     {

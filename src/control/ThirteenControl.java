@@ -67,15 +67,18 @@ public class ThirteenControl {
             Actor currentPlayer = playerStartRound;
             while(playersInRound.size() > 1) {
                 turnOfAPlayer: while(true) {
-                    MenuOfPlayer(currentPlayer);
+
                     if (currentPlayer instanceof ThirteenSBot) {
                         if (!((ThirteenSBot) currentPlayer).autoPlayCards(cardsOnTable))
                         {
                             playersInRound.remove(currentPlayer);
                             currentPlayerIndex--;
                         }
+                        MenuOfPlayer(currentPlayer);
                         break turnOfAPlayer;
                     }
+                    MenuOfPlayer(currentPlayer);
+
 
                     String decision= scanner.next();
                     switch(decision) {

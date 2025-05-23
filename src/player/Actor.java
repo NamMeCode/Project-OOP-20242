@@ -108,7 +108,8 @@ public abstract class Actor implements Comparable<Actor>{
     }
     public boolean playCards(ListOfCards cardsOnTable) {
         ListOfCards cardsPlayed = cardsOnHand.cardsSelected();
-
+        if (cardsPlayed.getSize()==0)
+            return false;
         if (rule.checkValidPlay(cardsPlayed,cardsOnTable))
         {
             cardsOnTable.replacedBy(cardsPlayed);

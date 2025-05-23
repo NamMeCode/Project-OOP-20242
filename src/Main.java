@@ -4,8 +4,8 @@ import control.ThirteenControl;
 
 public class Main {
     public static void main(String[] args) {
-        PokerControl pokerControl = new PokerControl(4,0);
-        pokerControl.play();
+        ThirteenControl thirteenControl=new ThirteenControl(1,3, "ThirteenS");
+
 
     }
 }

@@ -87,7 +87,7 @@ public class ThirteenSRule extends ThirteenRule {
 
         if(handCards.getSize() != 13) return false;
         // win with four 2's
-        if(handCards.getCardAt(handCards.getSize()).getRank() == 15) {
+        if(handCards.getCardAt(12).getRank() == 15) {
             ListOfCards tempCards = new ListOfCards();
             for(int i=1; i<=4; i++) {
                 tempCards.addCard(handCards.getCardAt(handCards.getSize() - i));
@@ -102,7 +102,7 @@ public class ThirteenSRule extends ThirteenRule {
             if(duplicateCardNum > 1) break;
             Card card = handCards.getCardAt(i);
             if(card.getRank() == rank) rank++;
-            else if(card.equals(handCards.getCardAt(i-1))) duplicateCardNum++;
+            else if(i>0&&card.equals(handCards.getCardAt(i-1))) duplicateCardNum++;
             else break;
         }
         return false;
