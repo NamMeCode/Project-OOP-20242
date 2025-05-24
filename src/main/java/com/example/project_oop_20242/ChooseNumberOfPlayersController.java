@@ -131,9 +131,6 @@ public class ChooseNumberOfPlayersController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ChooseGameplay.fxml"));
             Scene newScene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) _2PlayerButton.getScene().getWindow();
-
-            stage.setMaximized(true);
-
             stage.setScene(newScene);
             stage.show();
         } catch (IOException e) {
@@ -143,59 +140,41 @@ public class ChooseNumberOfPlayersController implements Initializable {
 
     @FXML
     public void start2PlayerGame() {
-        startGame(2);
+        loadGameScene(2);
     }
 
     @FXML
     public void start3PlayerGame() {
-        startGame(3);
+        loadGameScene(3);
     }
 
     @FXML
     public void start4PlayerGame() {
-        startGame(4);
+        loadGameScene(4);
     }
 
-
-    private void startGame(int playerCount) {
+    private void loadGameScene(int playerCount) {
         try {
-            String fxmlPath;
-            String gameType;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Scene.fxml"));
+            Scene newScene = new Scene(loader.load(), 1536, 1024);
 
-            switch (gameID) {
-                case 1:
-                    fxmlPath = "Deck.fxml";
-                    gameType = "ThirteenN";
-                    break;
-                case 2:
-                    fxmlPath = "Deck.fxml";
-                    gameType = "ThirteenS";
-                    break;
-//                case 3:
-//                    fxmlPath = "PokerTable.fxml";
-//                    gameType = "Poker";
-//                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid gameID: " + gameID);
-            }
+            DeckController controller = loader.getController();
+            controller.setPlayerCount(playerCount);
+            controller.startGame();
 
-            // ✅ Sửa ở đây
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath)); // <-- GÁN LOCATION
-            Scene scene = new Scene(loader.load());
-
-            ThirteenDeckController controller = loader.getController();
-            controller.setUpGame(playerCount, gameType);
+            newScene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    Stage stage = (Stage) newScene.getWindow();
+                    stage.close();
+                }
+            });
 
             Stage stage = (Stage) _2PlayerButton.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.setResizable(true);
+            stage.setScene(newScene);
             stage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 }

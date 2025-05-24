@@ -1,16 +1,16 @@
 package control;
 
 import card.ListOfCards;
-import player.Actor;
-import player.ThirteenPlayer;
-import player.ThirteenSBot;
+import player.AbstractPlayer;
+import player.Player;
+import player.Bot;
 import rule.ThirteenSRule;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class ThirteenControl {
-    final ArrayList<Actor> playersInGame = new ArrayList<Actor>();
-    ArrayList<Actor> playersWinGame = new ArrayList<Actor>();
-    private final String gameType;
+    final ArrayList<AbstractPlayer> playersInGame = new ArrayList<AbstractPlayer>();
+    ArrayList<AbstractPlayer> playersWinGame = new ArrayList<AbstractPlayer>();
+    private String gameType;
     ListOfCards Deck = new ListOfCards();
     ThirteenSRule rule = new ThirteenSRule();
 
@@ -18,15 +18,15 @@ public class ThirteenControl {
         Deck.initializeDeck(gameType);
         this.gameType = gameType;
         for (int i = 0; i < numberOfPlayers; i++) {
-            playersInGame.add(new ThirteenPlayer(gameType));
+            playersInGame.add(new Player(gameType));
         }
         for (int i = 0; i < numberOfBots; i++) {
-            playersInGame.add(new ThirteenSBot(gameType));
+            playersInGame.add(new Bot(gameType));
         }
-        for (Actor player : playersInGame) {
+        for (AbstractPlayer player : playersInGame) {
             player.setCardsOnHand(Deck.drawCard(13));
         }
-        for(Actor player: playersInGame) {
+        for(AbstractPlayer player: playersInGame) {
             if(player.isWin()) {
                 playersWinGame.add(player);
                 playersInGame.remove(player);
@@ -43,7 +43,7 @@ public class ThirteenControl {
     }
     public void mainGame() {
         guideLines();
-        Actor playerWinLastRound = playersInGame.getFirst();
+        AbstractPlayer playerWinLastRound = playersInGame.getFirst();
 
         while (playersInGame.size() > 1) {
             ThirteenRound currentRound = new ThirteenRound(playersInGame, playerWinLastRound);
@@ -56,29 +56,21 @@ public class ThirteenControl {
     }
 
     private class ThirteenRound {
-        ArrayList<Actor> playersInRound =new ArrayList<Actor>();
-        Actor playerLastInRound;
+        ArrayList<AbstractPlayer> playersInRound =new ArrayList<AbstractPlayer>();
+        AbstractPlayer playerLastInRound;
         ListOfCards cardsOnTable = new ListOfCards();
         Scanner scanner= new Scanner(System.in);
 
-        public ThirteenRound(ArrayList<Actor> playersInGame, Actor playerStartRound) {
+        public ThirteenRound(ArrayList<AbstractPlayer> playersInGame, AbstractPlayer playerStartRound) {
             initializePlayersInRound(playersInGame);
             int currentPlayerIndex = playersInRound.indexOf(playerStartRound);
-            Actor currentPlayer = playerStartRound;
+            AbstractPlayer currentPlayer = playerStartRound;
             while(playersInRound.size() > 1) {
                 turnOfAPlayer: while(true) {
                     MenuOfPlayer(currentPlayer);
-                    if (currentPlayer instanceof ThirteenSBot) {
-                        if (((ThirteenSBot) currentPlayer).autoPlayCards(cardsOnTable))
+                    if (currentPlayer instanceof Bot) {
+                        if (!((Bot) currentPlayer).autoPlayCards(cardsOnTable))
                         {
-                            if (currentPlayer.isWin()) {
-                                playersWinGame.add(currentPlayer);
-                                playersInRound.remove(currentPlayer);
-                                playersInGame.remove(currentPlayer);
-                                currentPlayerIndex --;
-                            }
-                        }
-                        else {
                             playersInRound.remove(currentPlayer);
                             currentPlayerIndex--;
                         }
@@ -136,27 +128,27 @@ public class ThirteenControl {
             playerLastInRound = playersInRound.getFirst();
         }
 
-        public void initializePlayersInRound(ArrayList<Actor> playersInGame) {
-            for (Actor player : playersInGame) {
+        public void initializePlayersInRound(ArrayList<AbstractPlayer> playersInGame) {
+            for (AbstractPlayer player : playersInGame) {
                 playersInRound.add(player);
             }
         }
 
-        public Actor getPlayerLastInRound() {
+        public AbstractPlayer getPlayerLastInRound() {
             return playerLastInRound;
         }
 
-        public void MenuOfPlayer(Actor player) {
+        public void MenuOfPlayer(AbstractPlayer player) {
             System.out.println("The cards on table are: "+cardsOnTable.toString());
 
-            if (player instanceof ThirteenPlayer) {
+            if (player instanceof Player) {
                 System.out.println("Player "+player.getId()+" Is Now Playing");
                 System.out.println("The cards on hand are: " + player.toStringCardsOnHand());
                 System.out.println("Your selected cards are: " + player.toStringCardsSelected());
 
 
             }
-            if (player instanceof ThirteenSBot)
+            if (player instanceof Bot)
             {
                 System.out.println("Bot "+player.getId()+" Is Playing..");
                 //remaining code

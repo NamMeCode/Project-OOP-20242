@@ -19,17 +19,16 @@ import java.util.ResourceBundle;
 
 public class ChooseGameplayController implements Initializable {
     private int gameID;
-
-    public void setGameID(int gameID) {
-        this.gameID = gameID;
-    }
-
     @FXML
     private Button playWithBotsButton;
     @FXML
     private Button playWithPlayersButton;
     @FXML
     private Button backToMenuButton;
+
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
+    }
 
     public void enterButtonEffect(Button button) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), button);
@@ -52,31 +51,38 @@ public class ChooseGameplayController implements Initializable {
 
         button.setEffect(null);
     }
+
     @FXML
     public void playWithBotsEnter() {
 
         enterButtonEffect(playWithBotsButton);
     }
+
     public void playWithBotsExit() {
 
         exitButtonEffect(playWithBotsButton);
     }
+
     public void playWithPlayersEnter() {
 
         enterButtonEffect(playWithPlayersButton);
     }
+
     public void playWithPlayersExit() {
 
         exitButtonEffect(playWithPlayersButton);
     }
+
     public void backToMenuEnter() {
 
         enterButtonEffect(backToMenuButton);
     }
+
     public void backToMenuExit() {
 
         exitButtonEffect(backToMenuButton);
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -92,14 +98,16 @@ public class ChooseGameplayController implements Initializable {
             }
         });
     }
+
     private void closeStage() {
         Stage stage = (Stage) playWithBotsButton.getScene().getWindow();
         stage.close();
     }
+
     public void backToMenu() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Menu.fxml"));
-            Scene newScene = new Scene(fxmlLoader.load(), 1536, 1024);
+            Scene newScene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) playWithBotsButton.getScene().getWindow();
             stage.setScene(newScene);
             stage.show();
@@ -107,6 +115,7 @@ public class ChooseGameplayController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void loadChooseNumberOfPlayersScene(int gameID) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ChooseNumberOfPlayers.fxml"));
@@ -115,26 +124,22 @@ public class ChooseGameplayController implements Initializable {
             controller.setGameID(gameID);
             Stage stage = (Stage) playWithPlayersButton.getScene().getWindow();
             stage.setScene(newScene);
-
-            stage.setFullScreen(false);      // Tắt fullscreen nếu đang bật
-            stage.setResizable(true);        // Cho resize lại nếu muốn
-
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void setPlayWithBotsScence() {
         int gameID = this.gameID;
         loadChooseNumberOfPlayersScene(gameID);
     }
+
     public void setPlayWithPlayersScence() {
         int gameID = this.gameID;
         loadChooseNumberOfPlayersScene(gameID);
     }
-
-
 
 
 }

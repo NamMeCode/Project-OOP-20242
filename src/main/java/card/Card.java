@@ -1,7 +1,7 @@
 package card;
 
 public class Card {
-    String rank;
+    private String rank;
     private String suit;
     private boolean FaceUp=false;
     private boolean Selected=false;
@@ -19,11 +19,7 @@ public class Card {
     public void setFaceUp(boolean faceUp) {
         FaceUp = faceUp;
     }
-    public Card(String rank, String suit) {
-        this.rank=rank;
-        this.suit=suit;
 
-    }
     public Card(String rank, String suit, String gameType) {
         this.rank=rank;
         this.suit=suit;
@@ -33,36 +29,27 @@ public class Card {
     //thirteenN: 2 -> K -> Q -> J -> ...
     //poker: A -> K -> Q -> J -> ... -> 2
     public int getRank() {
-        switch (gameType) {
-            case "Poker":
-            case "Reddog": {
-                return switch (rank) {
-                    case "J" -> 11;
-                    case "Q" -> 12;
-                    case "K" -> 13;
-                    case "A" -> 14;
-                    default -> Integer.parseInt(rank);
-                };
-            }
-            default: {
-                return switch (rank) {
-                    case "J" -> 11;
-                    case "Q" -> 12;
-                    case "K" -> 13;
-                    case "A" -> 14;
-                    case "2" -> 15;
-                    default -> Integer.parseInt(rank);
-                };
-            }
+        if(gameType.equals("ThirteenN") || gameType.equals("ThirteenS")) {
+            return switch (rank) {
+                case "J" -> 11;
+                case "Q" -> 12;
+                case "K" -> 13;
+                case "A" -> 14;
+                case "2" -> 15;
+                default -> Integer.parseInt(rank);
+            };
         }
+        else if(gameType.equals("Poker")) {
+            return switch (rank) {
+                case "J" -> 11;
+                case "Q" -> 12;
+                case "K" -> 13;
+                case "A" -> 14;
+                default -> Integer.parseInt(rank);
+            };
+        }
+        return 0;
     }
-
-
-    public boolean checkSameColour(Card card) {
-        return (this.getSuit() >= 3 && card.getSuit() >= 3) || (this.getSuit() <= 2 && card.getSuit() <= 2);
-    }
-
-
 
     public int getSuit() {
         return switch (suit) {
@@ -75,6 +62,10 @@ public class Card {
 
     public boolean equals(Card card) {
         return this.getRank() == card.getRank();
+    }
+
+    public boolean checkSameColour(Card card) {
+        return (this.getSuit() >= 3 && card.getSuit() >= 3) || (this.getSuit() <= 2 && card.getSuit() <= 2);
     }
 
     public int compareCard(Card card) {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane prefHeight="502.0" prefWidth="908.0" styleClass="bodybg" stylesheets="@BackgroundGame.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_oop_20242.DeckController">
+    <top>
+        <StackPane fx:id="northPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </top>
+    <left>
+        <StackPane fx:id="westPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </left>
+    <center>
+        <StackPane fx:id="deckPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </center>
+    <right>
+        <StackPane fx:id="eastPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </right>
+    <bottom>
+        <StackPane fx:id="southPane" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </bottom>
+</BorderPane>
