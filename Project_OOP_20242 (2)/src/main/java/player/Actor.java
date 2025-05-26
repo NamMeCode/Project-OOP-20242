@@ -119,9 +119,9 @@ public abstract class Actor {
                 return ((ThirteenNRule) rule).checkWinCondition(cardsOnHand);
             case "ThirteenS":
                 return ((ThirteenSRule) rule).checkWinCondition(cardsOnHand);
-//            case "Reddog":
-//                return ((ReddogRule) rule).checkWinCondition(cardsOnHand);
-//        }
+            case "Reddog":
+                return ((ReddogRule) rule).checkWinCondition(cardsOnHand);
+        }
         return false;
     }
 

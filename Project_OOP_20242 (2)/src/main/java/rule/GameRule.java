@@ -3,24 +3,22 @@ package rule;
 import card.ListOfCards;
 
 public abstract class GameRule {
-    public abstract boolean checkValidPlay(ListOfCards playCards, ListOfCards tableCards);
-
-    public static boolean checkPair(ListOfCards cards) {
+    public static boolean checkTwoCardsSameRank(ListOfCards cards) {
         return cards.getCardAt(0).equals(cards.getCardAt(1));
     }
 
-    public static boolean checkThreeOfAKind(ListOfCards cards) {
+    public static boolean checkThreeCardsSameRank(ListOfCards cards) {
         return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
                 cards.getCardAt(1).equals(cards.getCardAt(2));
     }
 
-    public static boolean checkFourOfAKind(ListOfCards cards) {
+    public static boolean checkFourCardsSameRank(ListOfCards cards) {
         return cards.getCardAt(0).equals(cards.getCardAt(1)) &&
                 cards.getCardAt(1).equals(cards.getCardAt(2)) &&
                 cards.getCardAt(2).equals(cards.getCardAt(3));
     }
 
-    public static boolean checkSequence(ListOfCards cards) {
+    public static boolean checkContinuousRank(ListOfCards cards) {
         for(int i = 0; i < cards.getSize() - 1; i++) {
             if(cards.getCardAt(i).getRank() + 1 != cards.getCardAt(i+1).getRank())
                 return false;
@@ -35,5 +33,5 @@ public abstract class GameRule {
         }
         return true;
     }
-    public abstract boolean checkWinCondition(ListOfCards handCards);
+
 }

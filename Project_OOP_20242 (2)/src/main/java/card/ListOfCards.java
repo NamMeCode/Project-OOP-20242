@@ -1,17 +1,12 @@
 package card;
 
-import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class ListOfCards {
     private ArrayList<Card> cardList=new ArrayList<>();
-    private final List<ImageView> deckImageView = new ArrayList<>();
-    public int size=0;
-    private String gameType;
+    private int size=0;
 
     public ListOfCards() {}
 
@@ -19,9 +14,7 @@ public class ListOfCards {
         this.cardList = new ArrayList<>(cardList);
         this.size = cardList.size();
     }
-    public String getGameType() {
-        return gameType;
-    }
+
     public int getSize()
     {
         return size;
@@ -60,12 +53,17 @@ public class ListOfCards {
         size++;
     }
 
-    public boolean removeCard(Card card) {
+    public void removeCard(int index)
+    {
+        cardList.remove(index);
+        size--;
+    }
+
+    public void removeCard(Card card) {
         boolean removed=cardList.remove(card);
         if (removed) {
             size--;
         }
-        return removed;
     }
 
     public void addAll(ListOfCards cards) {
@@ -83,12 +81,7 @@ public class ListOfCards {
         size--;
         return card;
     }
-    public boolean isEmpty(){
-        if(this.size==0){
-            return true;
-        }
-        return false;
-    }
+
     public ListOfCards drawCard(int numberOfCards) {
         ListOfCards cardsDrawn = new ListOfCards();
         while (numberOfCards-- > 0) {
@@ -136,7 +129,8 @@ public class ListOfCards {
         size = newList.size;
     }
 
-    public void initializeDeck(String gameType) {
+    public void initializeDeck(String gameType)
+    {
         String[] rank= {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
         String[] suit ={"C","D","H","S"};
         for (int i=0;i<4;i++)
